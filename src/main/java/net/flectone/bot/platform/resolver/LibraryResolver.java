@@ -1,0 +1,195 @@
+package net.flectone.bot.platform.resolver;
+
+import com.alessiodp.libby.Library;
+import com.alessiodp.libby.LibraryManager;
+import com.alessiodp.libby.relocation.Relocation;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.flectone.bot.BuildConfig;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Singleton
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
+public class LibraryResolver {
+
+    private final List<Library> libraries = new ArrayList<>();
+
+    @Getter
+    private final LibraryManager libraryManager;
+
+    public void addLibrary(Library library) {
+        libraries.add(library);
+    }
+
+    public void loadLibrary(Library library) {
+        libraryManager.loadLibrary(library);
+    }
+
+    public void loadLibraries(List<Library> libraries) {
+        libraries.forEach(this::loadLibrary);
+    }
+
+    public void loadLibraries() {
+        loadLibraries(libraries);
+    }
+
+    public void resolveRepositories() {
+        libraryManager.addRepository(BuildConfig.MAVEN_REPOSITORY);
+        libraryManager.addRepository(BuildConfig.CODEMC_REPOSITORY);
+        libraryManager.addRepository(BuildConfig.JITPACK_REPOSITORY);
+
+        libraryManager.addSonatype();
+        libraryManager.addJCenter();
+    }
+
+    public void addLibraries() {
+
+        addLibrary(Library.builder()
+                .groupId("com{}google{}inject")
+                .artifactId("guice")
+                .version(BuildConfig.GUICE_VERSION)
+                .repository(BuildConfig.MAVEN_REPOSITORY)
+                .resolveTransitiveDependencies(true)
+                .relocate(Relocation.builder()
+                        .pattern("com{}google{}inject")
+                        .relocatedPattern("net.flectone.bot.library.guice")
+                        .build()
+                )
+                .relocate(Relocation.builder()
+                        .pattern("com{}google{}common")
+                        .relocatedPattern("net.flectone.bot.library.guava")
+                        .build()
+                )
+                .build()
+        );
+
+        addLibrary(Library.builder()
+                .groupId("tools{}jackson{}dataformat")
+                .artifactId("jackson-dataformat-yaml")
+                .version(BuildConfig.JACKSON_DATAFORMAT_VERSION)
+                .repository(BuildConfig.MAVEN_REPOSITORY)
+                .resolveTransitiveDependencies(true)
+                .relocate(Relocation.builder()
+                        .pattern("com{}fasterxml{}jackson")
+                        .relocatedPattern("net.flectone.bot.library.jackson")
+                        .build()
+                )
+                .relocate(Relocation.builder()
+                        .pattern("tools{}jackson")
+                        .relocatedPattern("net.flectone.bot.library.jackson")
+                        .build()
+                )
+                .relocate(Relocation.builder()
+                        .pattern("org{}snakeyaml{}engine")
+                        .relocatedPattern("net.flectone.bot.library.snakeyaml")
+                        .build()
+                )
+                .build()
+        );
+
+        addLibrary(Library.builder()
+                .groupId("com{}zaxxer")
+                .artifactId("HikariCP")
+                .version(BuildConfig.HIKARICP_VERSION)
+                .repository(BuildConfig.MAVEN_REPOSITORY)
+                .relocate(Relocation.builder()
+                        .pattern("com{}zaxxer{}hikari")
+                        .relocatedPattern("net.flectone.bot.library.hikari")
+                        .build()
+                )
+                .build()
+        );
+
+        addLibrary(Library.builder()
+                .groupId("org{}jdbi")
+                .artifactId("jdbi3-core")
+                .version(BuildConfig.JDBI3_CORE_VERSION)
+                .repository(BuildConfig.MAVEN_REPOSITORY)
+                .resolveTransitiveDependencies(true)
+                .relocate(Relocation.builder()
+                        .pattern("org{}jdbi")
+                        .relocatedPattern("net.flectone.bot.library.jdbi3")
+                        .build()
+                )
+                .build()
+        );
+
+        addLibrary(Library.builder()
+                .groupId("org{}jdbi")
+                .artifactId("jdbi3-sqlobject")
+                .version(BuildConfig.JDBI3_CORE_VERSION)
+                .repository(BuildConfig.MAVEN_REPOSITORY)
+                .resolveTransitiveDependencies(true)
+                .relocate(Relocation.builder()
+                        .pattern("org{}jdbi")
+                        .relocatedPattern("net.flectone.bot.library.jdbi3")
+                        .build()
+                )
+                .build()
+        );
+
+        addLibrary(Library.builder()
+                .groupId("org{}apache{}commons")
+                .artifactId("commons-text")
+                .version(BuildConfig.APACHE_COMMONS_TEXT_VERSION)
+                .repository(BuildConfig.MAVEN_REPOSITORY)
+                .resolveTransitiveDependencies(true)
+                .relocate(Relocation.builder()
+                        .pattern("org{}apache{}commons")
+                        .relocatedPattern("net.flectone.bot.library.apache")
+                        .build()
+                )
+                .build()
+        );
+
+        addLibrary(Library.builder()
+                .groupId("com{}discord4j")
+                .artifactId("discord4j-core")
+                .version(BuildConfig.DISCORD4J_VERSION)
+                .repository(BuildConfig.MAVEN_REPOSITORY)
+                .resolveTransitiveDependencies(true)
+                .relocate(Relocation.builder()
+                        .pattern("io{}netty")
+                        .relocatedPattern("net.flectone.bot.library.discord.netty")
+                        .build()
+                )
+                .relocate(Relocation.builder()
+                        .pattern("com{}fasterxml")
+                        .relocatedPattern("net.flectone.bot.library.discord.fasterxml")
+                        .build()
+                )
+                .build()
+        );
+
+        loadLibrary(Library.builder()
+                .groupId("org{}telegram")
+                .artifactId("telegrambots-longpolling")
+                .version(BuildConfig.TELEGRAMBOTS_VERSION)
+                .repository(BuildConfig.MAVEN_REPOSITORY)
+                .resolveTransitiveDependencies(true)
+                .build()
+        );
+
+        loadLibrary(Library.builder()
+                .groupId("org{}telegram")
+                .artifactId("telegrambots-client")
+                .version(BuildConfig.TELEGRAMBOTS_VERSION)
+                .repository(BuildConfig.MAVEN_REPOSITORY)
+                .resolveTransitiveDependencies(true)
+                .build()
+        );
+
+        loadLibrary(Library.builder()
+                .groupId("com{}squareup{}okhttp3")
+                .artifactId("okhttp")
+                .version("5.0.0-alpha.14")
+                .repository(BuildConfig.MAVEN_REPOSITORY)
+                .resolveTransitiveDependencies(true)
+                .build()
+        );
+    }
+}

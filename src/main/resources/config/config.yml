@@ -1,0 +1,12 @@
+version: "0.0.1-SNAPSHOT"
+language: "en_us"
+database:
+  ignore_existing_driver: false
+  type: "H2"
+  name: "flectonebot"
+  host: "127.0.0.1"
+  port: "3306"
+  user: "root"
+  password: "1234"
+  parameters: "?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8"
+  prefix: ""

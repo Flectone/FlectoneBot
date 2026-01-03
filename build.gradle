@@ -1,0 +1,95 @@
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'com.gradleup.shadow' version '9.3.0'
+    id 'com.github.gmazzo.buildconfig' version '6.0.7'
+    id 'io.freefair.lombok' version "9.1.0"
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+java {
+    sourceCompatibility = java_version
+    targetCompatibility = java_version
+    withSourcesJar()
+}
+
+group = 'net.flectone.bot'
+version = project_version
+
+repositories {
+    mavenCentral()
+
+    maven { url = "https://jitpack.io" }
+    maven { url = "https://oss.sonatype.org/content/groups/public/" }
+    maven { url = "https://repo.aikar.co/content/groups/aikar/" }
+    maven { url = "https://repo.opencollab.dev/main/" }
+}
+
+dependencies {
+    api "org.jspecify:jspecify:$jspecify_version"
+    compileOnlyApi "org.mapstruct:mapstruct:$mapstruct_version"
+    compileOnlyApi "org.projectlombok:lombok:$lombok_version"
+    annotationProcessor "org.mapstruct:mapstruct-processor:$mapstruct_version"
+    annotationProcessor "org.projectlombok:lombok:$lombok_version"
+
+    compileOnly "com.google.inject:guice:$guice_version"
+    compileOnly "tools.jackson.dataformat:jackson-dataformat-yaml:$jackson_dataformat_version"
+    compileOnly "org.apache.commons:commons-text:$apache_commons_text_version"
+
+    compileOnly "com.discord4j:discord4j-core:$discord4j_version"
+//    compileOnly "com.github.twitch4j:twitch4j:$twitch4j_version"
+    compileOnly "org.telegram:telegrambots-longpolling:$telegrambots_version"
+    compileOnly "org.telegram:telegrambots-client:$telegrambots_version"
+
+    implementation fileTree("library") { include "*.jar" }
+
+    implementation 'org.apache.logging.log4j:log4j-api:2.25.3'
+    implementation 'org.apache.logging.log4j:log4j-core:2.25.3'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.25.3'
+}
+
+buildConfig {
+    className("BuildConfig")
+    packageName("net.flectone.bot")
+    rootProject.ext.properties.findAll { key, value ->
+        !key.contains('.')
+    }.each { key, value ->
+        buildConfigField(String, key.toString().toUpperCase(), value)
+    }
+}
+
+shadowJar {
+    relocate("com.zaxxer.hikari", "net.flectone.bot.library.hikari")
+    relocate("org.jdbi", "net.flectone.bot.library.jdbi3")
+    relocate("org.apache.commons", "net.flectone.bot.library.apache")
+    relocate("com.fasterxml.jackson", "net.flectone.bot.library.jackson")
+    relocate("tools.jackson", "net.flectone.bot.library.jackson")
+    relocate("org.snakeyaml.engine", "net.flectone.bot.library.snakeyaml")
+    relocate("com.alessiodp.libby", "net.flectone.pulse.library.libby")
+    relocate("com.google.inject", "net.flectone.bot.library.guice")
+    relocate("com.google.common", "net.flectone.bot.library.guava")
+
+    relocate("org.telegram", "net.flectone.bot.library.telegram")
+    relocate("com.discord4j", "net.flectone.bot.library.discord")
+
+    from(rootProject.file('LICENSE')) {
+        into('/')
+    }
+
+    outputs.cacheIf { true }
+
+    archiveFileName = "FlectoneBot-" + project_version + ".jar"
+
+//        minimize()
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "net.flectone.bot.FlectoneBot"
+    }
+}

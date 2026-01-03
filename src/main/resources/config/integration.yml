@@ -1,0 +1,337 @@
+discord:
+  token: "${DISCORD_FLECTONE_BOT_TOKEN}"
+  guild_id: 861147957365964810
+  presence:
+    enable: true
+    status: "ONLINE"
+    activity:
+      enable: true
+      type: "PLAYING"
+      name: "FlectoneBot enabled"
+      url: "https://flectone.net/pulse/"
+  ticket:
+    permission_role: 959813465025949747
+    close_tag_id: 1285574391144644630
+    modals:
+      russian_idea:
+        name: "Предложение"
+        embed:
+          color: "#2ecc71"
+          title: "<name>"
+          author:
+            name: "Предложение от <username>"
+            icon_url: "<skin>"
+          description: "<description>"
+          fields:
+            - name: "Платформа"
+              value: "``<platform>``"
+              inline: false
+          timestamp: true
+        create_message:
+          message: "Предложение создано, перейди в <thread>"
+        forum_id: 1271850075064369152
+        tag_id: 1271852198359466034
+        text_inputs:
+          - id: "name"
+            name: "Название"
+            placeholder: "Добавить новые сообщения..."
+            style: "SHORT"
+            max_length: 100
+            required: true
+          - id: "description"
+            name: "Описание"
+            placeholder: "Я хочу, чтобы добавили..."
+            style: "PARAGRAPH"
+            max_length: 1000
+            required: true
+          - id: "platform"
+            name: "Платформа, версия FlectonePulse"
+            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
+            style: "SHORT"
+            max_length: 100
+            required: true
+      russian_bug:
+        name: "Баг"
+        embed:
+          color: "#5865f2"
+          title: "<name>"
+          author:
+            name: "Баг от <username>"
+            icon_url: "<skin>"
+          description: "<description>"
+          fields:
+            - name: "Платформа"
+              value: "``<platform>``"
+              inline: false
+            - name: "Плагины/Моды"
+              value: "``<plugins>``"
+              inline: false
+          timestamp: true
+        create_message:
+          message: "Информация о баге создана, перейди в <thread>"
+        forum_id: 1271850075064369152
+        tag_id: 1271852374931279974
+        text_inputs:
+          - id: "name"
+            name: "Название"
+            placeholder: "Не запускается..."
+            style: "SHORT"
+            max_length: 100
+            required: true
+          - id: "description"
+            name: "Описание"
+            placeholder: "Я хочу запустить, но не запускается..."
+            style: "PARAGRAPH"
+            max_length: 1000
+            required: true
+          - id: "platform"
+            name: "Платформа, версия FlectonePulse"
+            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
+            style: "SHORT"
+            max_length: 100
+            required: true
+          - id: "plugins"
+            name: "Список плагинов или модов на сервере"
+            placeholder: "FlectonePulse, Vault, LuckPerms..."
+            style: "PARAGRAPH"
+            max_length: 1000
+            required: true
+      russian_question:
+        name: "Вопрос"
+        embed:
+          color: "#7f8c8d"
+          title: "<name>"
+          author:
+            name: "Вопрос от <username>"
+            icon_url: "<skin>"
+          description: "<description>"
+          fields:
+            - name: "Платформа"
+              value: "``<platform>``"
+              inline: false
+          timestamp: true
+        create_message:
+          message: "Вопрос создан, перейди в <thread>"
+        forum_id: 1271850075064369152
+        tag_id: 1271852440047714324
+        text_inputs:
+          - id: "name"
+            name: "Название"
+            placeholder: "Как включить имена над игроками?"
+            style: "SHORT"
+            max_length: 100
+            required: true
+          - id: "description"
+            name: "Описание"
+            placeholder: "Я хочу чтобы над игроками были видны их имена..."
+            style: "PARAGRAPH"
+            max_length: 1000
+            required: true
+          - id: "platform"
+            name: "Платформа, версия FlectonePulse"
+            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
+            style: "SHORT"
+            max_length: 100
+            required: true
+      english_idea:
+        name: "Suggestion"
+        embed:
+          color: "#2ecc71"
+          title: "<name>"
+          author:
+            name: "Suggestion from <username>"
+            icon_url: "<skin>"
+          description: "<description>"
+          fields:
+            - name: "Platform"
+              value: "``<platform>``"
+              inline: false
+          timestamp: true
+        create_message:
+          message: "Suggestion created, go to <thread>"
+        forum_id: 1271850075064369152
+        tag_id: 1271852198359466034
+        text_inputs:
+          - id: "name"
+            name: "Title"
+            placeholder: "Add new messages..."
+            style: "SHORT"
+            max_length: 100
+            required: true
+          - id: "description"
+            name: "Description"
+            placeholder: "I want to add..."
+            style: "PARAGRAPH"
+            max_length: 1000
+            required: true
+          - id: "platform"
+            name: "Platform, FlectonePulse version"
+            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
+            style: "SHORT"
+            max_length: 100
+            required: true
+      english_bug:
+        name: "Bug"
+        embed:
+          color: "#e74c3c"
+          title: "<name>"
+          author:
+            name: "Bug from <username>"
+            icon_url: "<skin>"
+          description: "<description>"
+          fields:
+            - name: "Platform"
+              value: "``<platform>``"
+              inline: false
+            - name: "Plugins/Mods"
+              value: "``<plugins>``"
+              inline: false
+          timestamp: true
+        create_message:
+          message: "Bug report created, go to <thread>"
+        forum_id: 1271850075064369152
+        tag_id: 1271852374931279974
+        text_inputs:
+          - id: "name"
+            name: "Title"
+            placeholder: "Doesn't start..."
+            style: "SHORT"
+            max_length: 100
+            required: true
+          - id: "description"
+            name: "Description"
+            placeholder: "I want to start it, but it doesn't start..."
+            style: "PARAGRAPH"
+            max_length: 1000
+            required: true
+          - id: "platform"
+            name: "Platform, FlectonePulse version"
+            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
+            style: "SHORT"
+            max_length: 100
+            required: true
+          - id: "plugins"
+            name: "List of plugins or mods on the server"
+            placeholder: "FlectonePulse, Vault, LuckPerms..."
+            style: "PARAGRAPH"
+            max_length: 1000
+            required: true
+      english_question:
+        name: "Question"
+        embed:
+          color: "#3498db"
+          title: "<name>"
+          author:
+            name: "Question from <username>"
+            icon_url: "<skin>"
+          description: "<description>"
+          fields:
+            - name: "Platform"
+              value: "``<platform>``"
+              inline: false
+          timestamp: true
+        create_message:
+          message: "Question created, go to <thread>"
+        forum_id: 1271850075064369152
+        tag_id: 1271852440047714324
+        text_inputs:
+          - id: "name"
+            name: "Title"
+            placeholder: "How to enable player names above heads?"
+            style: "SHORT"
+            max_length: 100
+            required: true
+          - id: "description"
+            name: "Description"
+            placeholder: "I want to see player names above their heads..."
+            style: "PARAGRAPH"
+            max_length: 1000
+            required: true
+          - id: "platform"
+            name: "Platform, FlectonePulse version"
+            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
+            style: "SHORT"
+            max_length: 100
+            required: true
+  commands:
+    - name: "пинг"
+      description: "Проверить задержку бота"
+      message: "Понг 🏓"
+      private_reply: false
+      options: []
+    - name: "информация"
+      description: "Гайды на всю жизнь"
+      message: "https://www.youtube.com/watch?v=WHPxQxY33Is"
+      private_reply: false
+      options:
+        - type: "SUB_COMMAND"
+          name: "форум"
+          description: "Гайд на форум"
+          message: "Незнаешь как написать и использовать форум https://discord.com/channels/861147957365964810/1271850075064369152? \nПосмотри этот гайд https://www.youtube.com/watch?v=WHPxQxY33Is"
+        - type: "SUB_COMMAND"
+          name: "флектонпульс"
+          description: "Документация для FlectonePulse"
+          message: "Документация для FlectonePulse https://flectone.net/pulse/docs/"
+        - type: "SUB_COMMAND"
+          name: "ютуб"
+          description: "Ютуб канал Фасэра"
+          message: "Ютуб канал Фасэра https://www.youtube.com/@thefaser/videos"
+        - type: "SUB_COMMAND"
+          name: "бусти"
+          description: "Поддержать Фасэра и его проекта"
+          message: "Поддержать Фасэра и его проекты можно тут https://boosty.to/thefaser, спасибо :heart:"
+    - name: "паста"
+      description: "Случайные пасты из интернета"
+      message: "https://www.youtube.com/watch?v=WHPxQxY33Is"
+      private_reply: false
+      options:
+        - type: "SUB_COMMAND"
+          name: "окак"
+          description: "окак"
+          message: " ⠀⠀⠀⠀⠀⢀⣾⡇⠀⠀⠀⠀⠀⢐⣷⡀⠀⠀⠀⠀⠀\n ⠀⠀⠀⠀⠀⣾⣿⠅⠀⠀⠀⠀⠀⠀⢿⣷⠀⠀⠀⠀⠀\n ⠀⠀⠀⠀⢰⡿⠃⠀⠀⠀⠀⠀⠀⠀⠘⣿⡆⠀⠀⠀⠀\n ⠀⠀⠀⠀⣾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣇⠀⠀⠀⠀\n ⠀⠀⠀⠀⡇⠀⡤⣶⡄⠀⠀⠀⢠⣶⢶⡄⢹⠀⠀⠀⠀\n ⠀⠀⠀⢸⠀⠀⠷⣤⠿⠀⠀⠀⠹⣤⠼⠃⠈⠀⠀⠀⠀\n ⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀\n ⠀⠀⠀⡆⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⡇⠀⠀\n ⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢇⠀⠀⠀\n ⠀⠀⣤⣶⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡘⠈⠙⢦⡀\n ⢠⣾⣿⠇⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉\n ⣾⣼⣿⠃⢸⣇⠀⠀⣴⠶⣤⢠⡆⣠⡖⢠⠶⢦⡀⣴⢀⡴\n ⣿⡟⢸⡆⠘⡟⠀⠸⣧⣀⣿⢸⡟⢿⡄⢴⣋⣹⡇⣿⠻⣧"
+        - type: "SUB_COMMAND"
+          name: "кабан"
+          description: "кабан"
+          message: "МУЖИКИ Я С СЫНИШКОЙ БЕГУ НЕ ШМАЛЯЙТЕ ХРИСТА РАДИ⠀\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \n ⠀⠀⠀⠀⠀⠀⣶⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣤⣀⡀⢀⡤⠒⣦⠀ \n ⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠘⠀ \n ⠠⣴⡾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀ \n ⠀⠉⢭⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢉⣉⣀⣠⣤⣄⣀⡈⠉⢃⠀⠀⠀ \n ⠀⠀⠀⠉⠙⠉⠋⠛⠛⣛⣿⣿⣿⣿⠏⣁⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⡀⠁⡀⠀ \n ⠀⠀⠀⠀⠀⠀⠀⢀⣼⠛⠉⠹⢿⣭⠀⠀⠓⠛⢛⣻⣿⡟⠿⠟⣿⢿⣧⡀⣧⠀ \n ⠀⠀⠀⠀⠀⠀⠀⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠊⠉⠉⠀⠀⠊⠀⠀⠀⠇⢹⠆\n"
+    - name: "ticket"
+      description: "Create ticket"
+      message: "test"
+      permission_role: 959813465025949747
+      private_reply: false
+      options:
+        - type: "SUB_COMMAND"
+          name: "russian"
+          description: "Тикет для форума FlectonePulse"
+          embed:
+            color: "#4287f5"
+            title: "Тикет для форума FlectonePulse"
+            description: "Если возникла ошибка, есть идея или появился вопрос, то нажмите на одну из кнопок ниже, чтобы создать тикет"
+          buttons:
+            - id: "russian_idea"
+              name: "💡 Предложение"
+              style: "SUCCESS"
+            - id: "russian_bug"
+              name: "🐛 Баг"
+              style: "PRIMARY"
+            - id: "russian_question"
+              name: "🤔 Вопрос"
+              style: "SECONDARY"
+        - type: "SUB_COMMAND"
+          name: "english"
+          description: "Ticket for FlectonePulse forum"
+          embed:
+            color: "#4287f5"
+            title: "Ticket for FlectonePulse forum"
+            description: "If you have an error, suggestion, or question, click one of buttons below to create a ticket"
+          buttons:
+            - id: "english_idea"
+              name: "💡 Suggestion"
+              style: "SUCCESS"
+            - id: "english_bug"
+              name: "🐛 Bug"
+              style: "PRIMARY"
+            - id: "english_question"
+              name: "🤔 Question"
+              style: "SECONDARY"
+telegram:
+  token: "${TELEGRAM_FLECTONE_BOT_TOKEN}"
