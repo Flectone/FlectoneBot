@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import net.flectone.bot.module.discord.DiscordBot;
+import net.flectone.bot.module.telegram.TelegramBot;
 import net.flectone.bot.platform.adapter.LoggerAdapter;
 import net.flectone.bot.platform.resolver.LibraryResolver;
 import net.flectone.bot.util.file.FileFacade;
@@ -54,11 +55,15 @@ public class FlectoneBot {
         DiscordBot discordBot = injector.getInstance(DiscordBot.class);
         discordBot.startup();
 
+        TelegramBot telegramBot = injector.getInstance(TelegramBot.class);
+        telegramBot.startup();
+
         CountDownLatch latch = new CountDownLatch(1);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("Shutting down...");
             discordBot.shutdown();
+            telegramBot.shutdown();
         }));
 
         latch.await();

@@ -16,17 +16,76 @@ public record Integration(
         Discord discord,
         Telegram telegram
 ) {
+
+    public interface WithEmbed {
+        @Nullable String message();
+        @Nullable String webhookAvatar();
+        Integration.Discord.@Nullable Embed embed();
+        @Nullable List<Discord.Button> buttons();
+    }
+
+
     @With
     @Builder(toBuilder = true)
     @Jacksonized
     public record Discord(
             String token,
             Long guildId,
+            Map<Long, String> channels,
+            String formatReply,
+            String message,
+            String webhookAvatar,
+            Discord.Embed embed,
+            List<Discord.Button> buttons,
             Messages messages,
             Presence presence,
             Ticket ticket,
             List<Command> commands
-    ) {
+    ) implements WithEmbed {
+
+        @With
+        @Builder(toBuilder = true)
+        @Jacksonized
+        public record Embed(
+                String color,
+                String title,
+                String url,
+                Author author,
+                String description,
+                String thumbnail,
+                List<Field> fields,
+                String image,
+                Boolean timestamp,
+                Footer footer
+        ) {
+            @With
+            @Builder(toBuilder = true)
+            @Jacksonized
+            public record Author(
+                    String name,
+                    String url,
+                    String iconUrl
+            ) {}
+
+            @With
+            @Builder(toBuilder = true)
+            @Jacksonized
+            public record Footer(
+                    String text,
+                    String iconUrl
+            ) {}
+
+            @With
+            @Builder(toBuilder = true)
+            @Jacksonized
+            public record Field(
+                    String name,
+                    String value,
+                    Boolean inline
+            ) {}
+        }
+
+
         @With
         @Builder(toBuilder = true)
         @Jacksonized
@@ -138,55 +197,6 @@ public record Integration(
             @Nullable Long permissionRole();
         }
 
-        public interface WithEmbed {
-            @Nullable String message();
-            @Nullable String webhookAvatar();
-            @Nullable Embed embed();
-            @Nullable List<Button> buttons();
-        }
-
-        @With
-        @Builder(toBuilder = true)
-        @Jacksonized
-        public record Embed(
-                String color,
-                String title,
-                String url,
-                Author author,
-                String description,
-                String thumbnail,
-                List<Field> fields,
-                String image,
-                Boolean timestamp,
-                Footer footer
-        ) {
-            @With
-            @Builder(toBuilder = true)
-            @Jacksonized
-            public record Author(
-                    String name,
-                    String url,
-                    String iconUrl
-            ) {}
-
-            @With
-            @Builder(toBuilder = true)
-            @Jacksonized
-            public record Footer(
-                    String text,
-                    String iconUrl
-            ) {}
-
-            @With
-            @Builder(toBuilder = true)
-            @Jacksonized
-            public record Field(
-                    String name,
-                    String value,
-                    Boolean inline
-            ) {}
-        }
-
         @With
         @Builder(toBuilder = true)
         @Jacksonized
@@ -216,6 +226,19 @@ public record Integration(
     @Builder(toBuilder = true)
     @Jacksonized
     public record Telegram(
-            String token
-    ) {}
+            String token,
+            Mode parseMode,
+            String formatReply,
+            String message,
+            Map<String, Long> channels
+    ) {
+
+        public enum Mode {
+            MARKDOWN,
+            MARKDOWN_V2,
+            HTML,
+            NONE
+        }
+
+    }
 }

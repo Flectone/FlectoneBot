@@ -16,7 +16,7 @@ import java.util.*;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class DiscordFormatter {
 
-    public List<Button> createButtons(Integration.Discord.WithEmbed withEmbed, String infoId) {
+    public List<Button> createButtons(Integration.WithEmbed withEmbed, String infoId) {
         if (withEmbed.buttons() == null) return Collections.emptyList();
 
         List<Button> buttons = new ArrayList<>();

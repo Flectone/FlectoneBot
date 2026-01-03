@@ -1,20 +1,28 @@
 discord:
   token: "${DISCORD_FLECTONE_BOT_TOKEN}"
   guild_id: 861147957365964810
+  channels:
+    1275976717487575091: "-1002346620480_5"
+    966374194361286666: "-1002346620480_624"
+    861174287644753934: "-1002346620480_84"
+    861147957813575690: "-1002346620480_541"
+    861174260432371752: "-1002337857883"
+  format_reply: "Ответ на @<reply_user>: <reply_message>} "
+  message: "[Telegram] <reply><message>"
+  webhook_avatar: "<avatar>"
   messages:
-    no_permission: "❌ Нет прав"
-    unknown_command: "❌ Неизвестная команда!"
-    command_error: "❌ Произошла ошибка при выполнении команды!"
-    ticket_close_no_permission: "❌ Только создатель тикета или модератор может его закрыть"
-    ticket_closed: "✅ Тикет закрыт"
-    not_a_thread: "❌ Это не тред"
+    no_permission: "❌ Нет прав / No permissions"
+    unknown_command: "❌ Неизвестная команда / Unknown command"
+    command_error: "❌ Произошла ошибка при выполнении команды / An error occurred when executing the command"
+    ticket_close_no_permission: "❌ Только создатель тикета или модератор может его закрыть / Only the ticket creator or moderator can close it "
+    ticket_closed: "✅ Тикет закрыт / Ticket closed"
   presence:
     enable: true
     status: "ONLINE"
     activity:
       enable: true
       type: "PLAYING"
-      name: "FlectoneBot включен"
+      name: "FlectoneBot LETS GO"
       url: "https://flectone.net/pulse/"
   ticket:
     permission_role: 959813465025949747
@@ -36,10 +44,6 @@ discord:
           timestamp: true
         create_message:
           message: "Предложение создано, перейди в <thread>"
-        buttons:
-          - id: "close_button"
-            name: "🔒 Закрыть"
-            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852198359466034
         text_inputs:
@@ -61,6 +65,10 @@ discord:
             style: "SHORT"
             max_length: 100
             required: true
+        buttons:
+          - id: "close_button"
+            name: "🔒 Закрыть"
+            style: "SECONDARY"
       russian_bug:
         name: "Баг"
         embed:
@@ -80,10 +88,6 @@ discord:
           timestamp: true
         create_message:
           message: "Информация о баге создана, перейди в <thread>"
-        buttons:
-          - id: "close_button"
-            name: "🔒 Закрыть"
-            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852374931279974
         text_inputs:
@@ -111,6 +115,10 @@ discord:
             style: "PARAGRAPH"
             max_length: 1000
             required: true
+        buttons:
+          - id: "close_button"
+            name: "🔒 Закрыть"
+            style: "SECONDARY"
       russian_question:
         name: "Вопрос"
         embed:
@@ -127,10 +135,6 @@ discord:
           timestamp: true
         create_message:
           message: "Вопрос создан, перейди в <thread>"
-        buttons:
-          - id: "close_button"
-            name: "🔒 Закрыть"
-            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852440047714324
         text_inputs:
@@ -152,6 +156,10 @@ discord:
             style: "SHORT"
             max_length: 100
             required: true
+        buttons:
+          - id: "close_button"
+            name: "🔒 Закрыть"
+            style: "SECONDARY"
       english_idea:
         name: "Suggestion"
         embed:
@@ -168,10 +176,6 @@ discord:
           timestamp: true
         create_message:
           message: "Suggestion created, go to <thread>"
-        buttons:
-          - id: "close_button"
-            name: "🔒 Close"
-            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852198359466034
         text_inputs:
@@ -193,6 +197,10 @@ discord:
             style: "SHORT"
             max_length: 100
             required: true
+        buttons:
+          - id: "close_button"
+            name: "🔒 Close"
+            style: "SECONDARY"
       english_bug:
         name: "Bug"
         embed:
@@ -212,10 +220,6 @@ discord:
           timestamp: true
         create_message:
           message: "Bug report created, go to <thread>"
-        buttons:
-          - id: "close_button"
-            name: "🔒 Close"
-            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852374931279974
         text_inputs:
@@ -243,6 +247,10 @@ discord:
             style: "PARAGRAPH"
             max_length: 1000
             required: true
+        buttons:
+          - id: "close_button"
+            name: "🔒 Close"
+            style: "SECONDARY"
       english_question:
         name: "Question"
         embed:
@@ -259,10 +267,6 @@ discord:
           timestamp: true
         create_message:
           message: "Question created, go to <thread>"
-        buttons:
-          - id: "close_button"
-            name: "🔒 Close"
-            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852440047714324
         text_inputs:
@@ -284,6 +288,10 @@ discord:
             style: "SHORT"
             max_length: 100
             required: true
+        buttons:
+          - id: "close_button"
+            name: "🔒 Close"
+            style: "SECONDARY"
   commands:
     - name: "пинг"
       description: "Проверить задержку бота"
@@ -324,6 +332,10 @@ discord:
           name: "кабан"
           description: "кабан"
           message: "МУЖИКИ Я С СЫНИШКОЙ БЕГУ НЕ ШМАЛЯЙТЕ ХРИСТА РАДИ⠀\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \n ⠀⠀⠀⠀⠀⠀⣶⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣤⣀⡀⢀⡤⠒⣦⠀ \n ⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠘⠀ \n ⠠⣴⡾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀ \n ⠀⠉⢭⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢉⣉⣀⣠⣤⣄⣀⡈⠉⢃⠀⠀⠀ \n ⠀⠀⠀⠉⠙⠉⠋⠛⠛⣛⣿⣿⣿⣿⠏⣁⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⡀⠁⡀⠀ \n ⠀⠀⠀⠀⠀⠀⠀⢀⣼⠛⠉⠹⢿⣭⠀⠀⠓⠛⢛⣻⣿⡟⠿⠟⣿⢿⣧⡀⣧⠀ \n ⠀⠀⠀⠀⠀⠀⠀⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠊⠉⠉⠀⠀⠊⠀⠀⠀⠇⢹⠆\n"
+        - type: "SUB_COMMAND"
+          name: "селюк"
+          description: "селюк"
+          message: "Ты меня интересовал только как источник заработка зачем ты думаешь что ты мне нравился ты же селюк это же надо уметь так врать\n\nИ айкью низкий мне с тобой не интересно \nПовторяешь фразы по сто раз\nМнишь себя каким то литературным критиком\nДва слова связать не можешь"
     - name: "ticket"
       description: "Создать тикет"
       permission_role: 959813465025949747
@@ -365,3 +377,12 @@ discord:
               style: "SECONDARY"
 telegram:
   token: "${TELEGRAM_FLECTONE_BOT_TOKEN}"
+  parse_mode: "MARKDOWN"
+  format_reply: "{Ответ на @<reply_user>: <reply_message>} "
+  message: "\\[Discord] <user_name>: <reply><message>"
+  channels:
+    "-1002346620480_5": 1275976717487575091
+    "-1002346620480_624": 966374194361286666
+    "-1002346620480_84": 861174287644753934
+    "-1002346620480_541": 861147957813575690
+    "-1002337857883": 861174260432371752

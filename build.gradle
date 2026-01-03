@@ -74,7 +74,7 @@ shadowJar {
     relocate("com.google.inject", "net.flectone.bot.library.guice")
     relocate("com.google.common", "net.flectone.bot.library.guava")
 
-    relocate("org.telegram", "net.flectone.bot.library.telegram")
+//    relocate("org.telegram", "net.flectone.bot.library.telegram")
     relocate("com.discord4j", "net.flectone.bot.library.discord")
 
     from(rootProject.file('LICENSE')) {

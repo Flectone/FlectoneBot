@@ -11,6 +11,7 @@ import discord4j.core.object.presence.Activity;
 import discord4j.core.object.presence.ClientActivity;
 import discord4j.core.object.presence.ClientPresence;
 import discord4j.core.object.presence.Status;
+import discord4j.discordjson.json.WebhookData;
 import discord4j.rest.service.ApplicationService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import net.flectone.bot.module.Bot;
 import net.flectone.bot.module.discord.command.BaseCommand;
 import net.flectone.bot.module.discord.listener.ButtonListener;
 import net.flectone.bot.module.discord.listener.ChatInputInteractionListener;
+import net.flectone.bot.module.discord.listener.MessageCreateListener;
 import net.flectone.bot.module.discord.listener.ModalSubmitInteractionListener;
 import net.flectone.bot.module.discord.register.CommandRegistry;
 import net.flectone.bot.module.discord.register.ListenerRegistry;
@@ -26,6 +28,8 @@ import net.flectone.bot.module.discord.sender.MessageSender;
 import net.flectone.bot.processing.SystemVariableResolver;
 import net.flectone.bot.util.file.FileFacade;
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 @Singleton
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
@@ -77,6 +81,7 @@ public class DiscordBot implements Bot {
 
         listenerRegistry.register(gateway, injector.getInstance(ButtonListener.class));
         listenerRegistry.register(gateway, injector.getInstance(ChatInputInteractionListener.class));
+        listenerRegistry.register(gateway, injector.getInstance(MessageCreateListener.class));
         listenerRegistry.register(gateway, injector.getInstance(ModalSubmitInteractionListener.class));
 
         Snowflake guildId = Snowflake.of(fileFacade.integration().discord().guildId());
@@ -93,6 +98,27 @@ public class DiscordBot implements Bot {
 
             commandRegistry.registerGuild(applicationService, clientID, discordCommand, guildId);
         });
+
+        config().channels().keySet()
+                .forEach(channelID -> {
+                    try {
+                        List<WebhookData> botWebhooks = discordClient.getWebhookService().getChannelWebhooks(channelID)
+                                .filter(data -> data.applicationId().isPresent() && data.applicationId().get().asLong() == clientID)
+                                .collectList()
+                                .block();
+
+                        if (botWebhooks != null && !botWebhooks.isEmpty()) {
+                            WebhookData kept = botWebhooks.getFirst();
+                            for (int i = 1; i < botWebhooks.size(); i++) {
+                                discordClient.getWebhookService().deleteWebhook(botWebhooks.get(i).id().asLong(), null).block();
+                            }
+
+                            messageSender.putWebhook(channelID, kept);
+                        }
+                    } catch (Exception e) {
+                        logger.warn(e);
+                    }
+                });
     }
 
     @Override

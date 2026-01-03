@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import net.flectone.bot.config.Integration;
 import net.flectone.bot.module.discord.DiscordBot;
 import net.flectone.bot.module.discord.formatter.DiscordFormatter;
+import net.flectone.bot.module.discord.sender.MessageSender;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class TicketService {
 
     private final DiscordBot discordBot;
     private final DiscordFormatter discordFormatter;
-    private final WebhookService webhookService;
+    private final MessageSender messageSender;
 
     public Mono<ThreadChannel> createForumThread(String modalId,
                                                  Map<String, String> formData,
@@ -42,7 +43,7 @@ public class TicketService {
 
         Integration.Discord.Embed embedConfig = modalConfig.embed();
         EmbedCreateSpec embed = embedConfig != null ?
-                webhookService.createEmbed(embedConfig, formatter) :
+                messageSender.createEmbed(embedConfig, formatter) :
                 createDefaultEmbed(modalConfig, formatter);
 
         String threadName = formatter.apply(formData.getOrDefault("name", modalConfig.name()));
