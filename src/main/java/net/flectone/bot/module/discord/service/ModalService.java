@@ -44,7 +44,6 @@ public class ModalService {
             builder.addComponent(Label.of(textInput.name(), textInputComponent));
         }
 
-
         return Optional.of(builder.build());
     }
 

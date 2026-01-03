@@ -1,13 +1,20 @@
 discord:
   token: "${DISCORD_FLECTONE_BOT_TOKEN}"
   guild_id: 861147957365964810
+  messages:
+    no_permission: "❌ Нет прав"
+    unknown_command: "❌ Неизвестная команда!"
+    command_error: "❌ Произошла ошибка при выполнении команды!"
+    ticket_close_no_permission: "❌ Только создатель тикета или модератор может его закрыть"
+    ticket_closed: "✅ Тикет закрыт"
+    not_a_thread: "❌ Это не тред"
   presence:
     enable: true
     status: "ONLINE"
     activity:
       enable: true
       type: "PLAYING"
-      name: "FlectoneBot enabled"
+      name: "FlectoneBot включен"
       url: "https://flectone.net/pulse/"
   ticket:
     permission_role: 959813465025949747
@@ -29,6 +36,10 @@ discord:
           timestamp: true
         create_message:
           message: "Предложение создано, перейди в <thread>"
+        buttons:
+          - id: "close_button"
+            name: "🔒 Закрыть"
+            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852198359466034
         text_inputs:
@@ -69,6 +80,10 @@ discord:
           timestamp: true
         create_message:
           message: "Информация о баге создана, перейди в <thread>"
+        buttons:
+          - id: "close_button"
+            name: "🔒 Закрыть"
+            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852374931279974
         text_inputs:
@@ -112,6 +127,10 @@ discord:
           timestamp: true
         create_message:
           message: "Вопрос создан, перейди в <thread>"
+        buttons:
+          - id: "close_button"
+            name: "🔒 Закрыть"
+            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852440047714324
         text_inputs:
@@ -149,6 +168,10 @@ discord:
           timestamp: true
         create_message:
           message: "Suggestion created, go to <thread>"
+        buttons:
+          - id: "close_button"
+            name: "🔒 Close"
+            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852198359466034
         text_inputs:
@@ -173,7 +196,7 @@ discord:
       english_bug:
         name: "Bug"
         embed:
-          color: "#e74c3c"
+          color: "#5865f2"
           title: "<name>"
           author:
             name: "Bug from <username>"
@@ -189,6 +212,10 @@ discord:
           timestamp: true
         create_message:
           message: "Bug report created, go to <thread>"
+        buttons:
+          - id: "close_button"
+            name: "🔒 Close"
+            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852374931279974
         text_inputs:
@@ -219,7 +246,7 @@ discord:
       english_question:
         name: "Question"
         embed:
-          color: "#3498db"
+          color: "#7f8c8d"
           title: "<name>"
           author:
             name: "Question from <username>"
@@ -232,6 +259,10 @@ discord:
           timestamp: true
         create_message:
           message: "Question created, go to <thread>"
+        buttons:
+          - id: "close_button"
+            name: "🔒 Close"
+            style: "SECONDARY"
         forum_id: 1271850075064369152
         tag_id: 1271852440047714324
         text_inputs:
@@ -267,7 +298,7 @@ discord:
         - type: "SUB_COMMAND"
           name: "форум"
           description: "Гайд на форум"
-          message: "Незнаешь как написать и использовать форум https://discord.com/channels/861147957365964810/1271850075064369152? \nПосмотри этот гайд https://www.youtube.com/watch?v=WHPxQxY33Is"
+          message: "Не знаешь как написать и использовать форум https://discord.com/channels/861147957365964810/1271850075064369152? \nПосмотри этот гайд https://www.youtube.com/watch?v=WHPxQxY33Is"
         - type: "SUB_COMMAND"
           name: "флектонпульс"
           description: "Документация для FlectonePulse"
@@ -294,8 +325,7 @@ discord:
           description: "кабан"
           message: "МУЖИКИ Я С СЫНИШКОЙ БЕГУ НЕ ШМАЛЯЙТЕ ХРИСТА РАДИ⠀\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \n ⠀⠀⠀⠀⠀⠀⣶⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣤⣀⡀⢀⡤⠒⣦⠀ \n ⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠘⠀ \n ⠠⣴⡾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀ \n ⠀⠉⢭⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢉⣉⣀⣠⣤⣄⣀⡈⠉⢃⠀⠀⠀ \n ⠀⠀⠀⠉⠙⠉⠋⠛⠛⣛⣿⣿⣿⣿⠏⣁⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⡀⠁⡀⠀ \n ⠀⠀⠀⠀⠀⠀⠀⢀⣼⠛⠉⠹⢿⣭⠀⠀⠓⠛⢛⣻⣿⡟⠿⠟⣿⢿⣧⡀⣧⠀ \n ⠀⠀⠀⠀⠀⠀⠀⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠊⠉⠉⠀⠀⠊⠀⠀⠀⠇⢹⠆\n"
     - name: "ticket"
-      description: "Create ticket"
-      message: "test"
+      description: "Создать тикет"
       permission_role: 959813465025949747
       private_reply: false
       options:

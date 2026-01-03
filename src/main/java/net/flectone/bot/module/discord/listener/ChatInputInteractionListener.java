@@ -6,6 +6,7 @@ import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import lombok.RequiredArgsConstructor;
 import net.flectone.bot.module.discord.command.Command;
 import net.flectone.bot.module.discord.register.CommandRegistry;
+import net.flectone.bot.util.file.FileFacade;
 import org.apache.logging.log4j.Logger;
 import reactor.core.publisher.Mono;
 
@@ -17,6 +18,7 @@ public class ChatInputInteractionListener implements EventListener<ChatInputInte
 
     private final Logger logger;
     private final CommandRegistry commandRegistry;
+    private final FileFacade fileFacade;
 
     @Override
     public Class<ChatInputInteractionEvent> getEventType() {
@@ -30,7 +32,7 @@ public class ChatInputInteractionListener implements EventListener<ChatInputInte
 
         if (command.isEmpty()) {
             logger.warn("Unknown command received: {}", commandName);
-            return event.reply("Unknown command!")
+            return event.reply(fileFacade.integration().discord().messages().unknownCommand())
                     .withEphemeral(true)
                     .then();
         }
@@ -38,7 +40,7 @@ public class ChatInputInteractionListener implements EventListener<ChatInputInte
         return command.get().handle(event)
                 .onErrorResume(error -> {
                     logger.error("Error executing command: {}", commandName, error);
-                    return event.reply("An error occurred while executing the command!")
+                    return event.reply(fileFacade.integration().discord().messages().commandError())
                             .withEphemeral(true)
                             .then();
                 });

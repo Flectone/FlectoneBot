@@ -20,6 +20,7 @@ public class BaseCommand implements Command {
 
     protected final Integration.Discord.Command config;
     protected final MessageSender messageSender;
+    protected final Integration.Discord.Messages messages;
 
     @Override
     public ApplicationCommandRequest getRequest() {
@@ -33,7 +34,7 @@ public class BaseCommand implements Command {
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         if (!hasPermission(event)) {
-            return event.reply("❌ Нет прав").withEphemeral(true).then();
+            return event.reply(messages.noPermission()).withEphemeral(true).then();
         }
 
         Optional<Integration.Discord.Command.Option> subCommand = event.getOptions().stream()
@@ -44,7 +45,7 @@ public class BaseCommand implements Command {
                         .findFirst()
                 );
 
-        if (subCommand.isEmpty()) return event.reply("❌ Не правильная команда").withEphemeral(true).then();
+        if (subCommand.isEmpty()) return event.reply(messages.unknownCommand()).withEphemeral(true).then();
 
         return messageSender.sendMessage(
                 event,

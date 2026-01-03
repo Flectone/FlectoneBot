@@ -23,7 +23,6 @@ public class CommandRegistry {
 
     public void registerGlobal(ApplicationService applicationService, long applicationId, Command command) {
         commands.put(command.getConfig().name(), command);
-
         logger.info("Registering global command in Discord: {}", command.getConfig().name());
 
         applicationService.createGlobalApplicationCommand(applicationId, command.getRequest())
@@ -34,7 +33,6 @@ public class CommandRegistry {
 
     public void registerGuild(ApplicationService applicationService, long applicationId, Command command, Snowflake guildId) {
         commands.put(command.getConfig().name(), command);
-
         logger.info("Registering guild command in Discord: {} for guild {}", command.getConfig().name(), guildId);
 
         applicationService.createGuildApplicationCommand(applicationId, guildId.asLong(), command.getRequest())

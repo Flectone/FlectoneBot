@@ -26,7 +26,7 @@ public class DiscordFormatter {
                 case SECONDARY -> Button.secondary(btnConfig.id() + infoId, btnConfig.convertEmoji(), btnConfig.name());
                 case SUCCESS -> Button.success(btnConfig.id() + infoId, btnConfig.convertEmoji(), btnConfig.name());
                 case DANGER -> Button.danger(btnConfig.id() + infoId, btnConfig.convertEmoji(), btnConfig.name());
-                default ->  Button.primary(btnConfig.id() + infoId, btnConfig.convertEmoji(), btnConfig.name());
+                default -> Button.primary(btnConfig.id() + infoId, btnConfig.convertEmoji(), btnConfig.name());
             };
 
             buttons.add(button);
@@ -75,5 +75,4 @@ public class DiscordFormatter {
 
         return StringUtils.replaceEach(message, searchList, replacementList);
     }
-
 }

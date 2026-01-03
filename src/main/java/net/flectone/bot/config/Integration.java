@@ -13,23 +13,31 @@ import java.util.Map;
 @Builder(toBuilder = true)
 @Jacksonized
 public record Integration(
-
         Discord discord,
-
         Telegram telegram
-
 ) {
-
     @With
     @Builder(toBuilder = true)
     @Jacksonized
     public record Discord(
             String token,
             Long guildId,
+            Messages messages,
             Presence presence,
             Ticket ticket,
             List<Command> commands
     ) {
+        @With
+        @Builder(toBuilder = true)
+        @Jacksonized
+        public record Messages(
+                String noPermission,
+                String unknownCommand,
+                String commandError,
+                String ticketCloseNoPermission,
+                String ticketClosed,
+                String notAThread
+        ) {}
 
         @With
         @Builder(toBuilder = true)
@@ -47,8 +55,7 @@ public record Integration(
                     String type,
                     String name,
                     String url
-            ) {
-            }
+            ) {}
         }
 
         @With
@@ -59,8 +66,6 @@ public record Integration(
                 Long closeTagId,
                 Map<String, Modal> modals
         ) implements WithPermission {
-
-
             @With
             @Builder(toBuilder = true)
             @Jacksonized
@@ -75,7 +80,6 @@ public record Integration(
                     List<TextInput> textInputs,
                     List<Button> buttons
             ) implements WithEmbed {
-
                 @With
                 @Builder(toBuilder = true)
                 @Jacksonized
@@ -84,9 +88,7 @@ public record Integration(
                         String webhookAvatar,
                         Embed embed,
                         List<Button> buttons
-                ) implements WithEmbed {
-
-                }
+                ) implements WithEmbed {}
 
                 @With
                 @Builder(toBuilder = true)
@@ -99,7 +101,6 @@ public record Integration(
                         Integer maxLength,
                         Boolean required
                 ) {}
-
             }
         }
 
@@ -117,7 +118,6 @@ public record Integration(
                 List<Option> options,
                 List<Button> buttons
         ) implements WithPermission, WithEmbed {
-
             @With
             @Builder(toBuilder = true)
             @Jacksonized
@@ -132,25 +132,17 @@ public record Integration(
                     Boolean required,
                     List<Button> buttons
             ) implements WithPermission, WithEmbed {}
-
         }
 
         public interface WithPermission {
-
             @Nullable Long permissionRole();
-
         }
 
         public interface WithEmbed {
-
             @Nullable String message();
-
             @Nullable String webhookAvatar();
-
             @Nullable Embed embed();
-
             @Nullable List<Button> buttons();
-
         }
 
         @With
@@ -168,7 +160,6 @@ public record Integration(
                 Boolean timestamp,
                 Footer footer
         ) {
-
             @With
             @Builder(toBuilder = true)
             @Jacksonized
@@ -205,7 +196,6 @@ public record Integration(
                 discord4j.core.object.component.Button.Style style,
                 Emoji emoji
         ) {
-
             @With
             @Builder(toBuilder = true)
             @Jacksonized
@@ -213,28 +203,19 @@ public record Integration(
                     Long id,
                     String name,
                     Boolean animated
-            ) {
-
-            }
+            ) {}
 
             public discord4j.core.object.emoji.Emoji convertEmoji() {
                 if (emoji == null) return null;
-
                 return discord4j.core.object.emoji.Emoji.of(emoji.id, emoji.name, emoji.animated);
             }
-
         }
-
     }
 
     @With
     @Builder(toBuilder = true)
     @Jacksonized
     public record Telegram(
-
             String token
-
-    ) {
-    }
-
+    ) {}
 }

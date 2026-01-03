@@ -88,6 +88,7 @@ public class DiscordBot implements Bot {
             BaseCommand discordCommand = BaseCommand.builder()
                     .config(command)
                     .messageSender(messageSender)
+                    .messages(fileFacade.integration().discord().messages())
                     .build();
 
             commandRegistry.registerGuild(applicationService, clientID, discordCommand, guildId);
@@ -107,5 +108,4 @@ public class DiscordBot implements Bot {
 
         logger.info("Discord bot shutdown completed");
     }
-
 }

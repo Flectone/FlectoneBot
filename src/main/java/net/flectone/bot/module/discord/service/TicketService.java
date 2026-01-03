@@ -75,11 +75,11 @@ public class TicketService {
                 });
     }
 
-
     private EmbedCreateSpec createDefaultEmbed(Integration.Discord.Ticket.Modal modalConfig, UnaryOperator<String> formatter) {
         return EmbedCreateSpec.builder()
                 .title(modalConfig.name())
                 .description(formatter.apply(modalConfig.message()))
                 .build();
     }
+
 }

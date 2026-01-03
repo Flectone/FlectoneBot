@@ -23,7 +23,6 @@ public class ModalSubmitInteractionListener implements EventListener<ModalSubmit
     private final MessageSender messageSender;
     private final TicketService ticketService;
 
-
     @Override
     public Class<ModalSubmitInteractionEvent> getEventType() {
         return ModalSubmitInteractionEvent.class;
@@ -48,5 +47,4 @@ public class ModalSubmitInteractionListener implements EventListener<ModalSubmit
                         true
                 ));
     }
-
 }

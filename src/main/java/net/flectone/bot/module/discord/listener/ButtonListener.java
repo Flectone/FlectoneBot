@@ -36,7 +36,6 @@ public class ButtonListener implements EventListener<ButtonInteractionEvent> {
 
         Optional<InteractionPresentModalSpec> presentModalSpec = modalService.createTicketModal(customId);
         return presentModalSpec.map(event::presentModal).orElseGet(Mono::empty);
-
     }
 
     private Mono<Void> handleCloseTicket(ButtonInteractionEvent event, String customId) {
@@ -51,7 +50,7 @@ public class ButtonListener implements EventListener<ButtonInteractionEvent> {
                 .orElse(false);
 
         if (!isCreator && !hasRole) {
-            return event.reply("❌ Только создатель тикета или модератор может его закрыть")
+            return event.reply(fileFacade.integration().discord().messages().ticketCloseNoPermission())
                     .withEphemeral(true)
                     .then();
         }
@@ -66,10 +65,10 @@ public class ButtonListener implements EventListener<ButtonInteractionEvent> {
                                                 .withArchived(true)
                                                 .withLocked(true)
                                                 .withAppliedTags(getClosedTags(thread)))
-                                        .then(event.editReply("✅ Тикет закрыт"))
+                                        .then(event.editReply(fileFacade.integration().discord().messages().ticketClosed()))
                                         .then();
                             }
-                            return event.editReply("❌ Это не тред").then();
+                            return event.editReply(fileFacade.integration().discord().messages().notAThread()).then();
                         })
                 )
                 .then();
