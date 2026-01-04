@@ -93,7 +93,7 @@ public class MessageListener implements LongPollingSingleThreadUpdateConsumer {
         String firstName = author.getFirstName();
         String lastName = StringUtils.defaultString(author.getLastName());
         String avatar = getUserPhoto(author);
-        String formatReply = formatReply(reply);
+        String formatReply = formatReplyForDiscord(reply);
 
         discordMessageSender.sendMessage(userName.isEmpty() ? firstName : userName, Snowflake.of(discordChannelId), fileFacade.integration().discord(), s -> StringUtils.replaceEach(
                 s,
@@ -102,11 +102,11 @@ public class MessageListener implements LongPollingSingleThreadUpdateConsumer {
         ), List.of());
     }
 
-    private String formatReply(Pair<String, String> reply) {
+    private String formatReplyForDiscord(Pair<String, String> reply) {
         if (reply == null) return "";
 
         return StringUtils.replaceEach(
-                config().formatReply(),
+                fileFacade.integration().discord().formatReply(),
                 new String[]{"<reply_user>", "<reply_message>"},
                 new String[]{StringUtils.defaultString(reply.getLeft()), StringUtils.defaultString(reply.getRight())}
         );

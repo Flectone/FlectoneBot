@@ -62,7 +62,7 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
         String nickname = member.getNickname().orElse("");
         String displayName = member.getDisplayName();
         String userName = member.getUsername();
-        String formatReply = formatReply(reply);
+        String formatReply = formatReplyForTelegram(reply);
 
         telegramMessageSender.sendMessage(telegramChannelId, s -> StringUtils.replaceEach(
                 s,
@@ -73,11 +73,11 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
         return Mono.empty();
     }
 
-    private String formatReply(Pair<String, String> reply) {
+    private String formatReplyForTelegram(Pair<String, String> reply) {
         if (reply == null) return "";
 
         return StringUtils.replaceEach(
-                config().formatReply(),
+                fileFacade.integration().telegram().formatReply(),
                 new String[]{"<reply_user>", "<reply_message>"},
                 new String[]{StringUtils.defaultString(reply.getLeft()), StringUtils.defaultString(reply.getRight())}
         );
