@@ -85,10 +85,8 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
 
     private String getMessageContent(Message message) {
         String content = message.getContent();
-        if (content.isEmpty()) {
-            if (message.getAttachments().isEmpty()) return null;
-
-            return String.join(" ", message.getAttachments()
+        if (!message.getAttachments().isEmpty()) {
+            content = (content.isEmpty() ? "" : content + " ") + String.join(" ", message.getAttachments()
                     .stream()
                     .map(Attachment::getUrl)
                     .toList()
