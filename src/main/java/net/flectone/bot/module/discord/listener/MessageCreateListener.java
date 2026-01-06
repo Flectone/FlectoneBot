@@ -2,10 +2,9 @@ package net.flectone.bot.module.discord.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import discord4j.common.util.Snowflake;
 import discord4j.core.event.domain.message.MessageCreateEvent;
-import discord4j.core.object.entity.Attachment;
-import discord4j.core.object.entity.Member;
-import discord4j.core.object.entity.Message;
+import discord4j.core.object.entity.*;
 import lombok.RequiredArgsConstructor;
 import net.flectone.bot.config.Integration;
 import net.flectone.bot.module.telegram.sender.MessageSender;
@@ -50,19 +49,13 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
         String telegramChannelId = config().channels().get(discordChannelId);
         if (telegramChannelId == null) return Mono.empty();
 
-        Pair<String, String> reply = null;
-        if (discordMessage.getReferencedMessage().isPresent()) {
-            Message referencedMessage = discordMessage.getReferencedMessage().get();
-            if (referencedMessage.getAuthor().isPresent()) {
-                reply = Pair.of(referencedMessage.getAuthor().get().getUsername(), getMessageContent(referencedMessage));
-            }
-        }
-
         String globalName = member.getGlobalName().orElse("");
         String nickname = member.getNickname().orElse("");
         String displayName = member.getDisplayName();
         String userName = member.getUsername();
-        String formatReply = formatReplyForTelegram(reply);
+        String formatReply = retrieveReply(discordMessage)
+                .map(this::formatReplyForTelegram)
+                .orElse("");
 
         telegramMessageSender.sendMessage(telegramChannelId, s -> StringUtils.replaceEach(
                 s,
@@ -71,6 +64,28 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
         ));
 
         return Mono.empty();
+    }
+
+    private Optional<Pair<String, String>> retrieveReply(Message message) {
+        Optional<Message> optionalReferencedMessage = message.getReferencedMessage();
+        if (optionalReferencedMessage.isEmpty()) return Optional.empty();
+
+        Message referencedMessage = optionalReferencedMessage.get();
+
+        String content = getMessageContent(referencedMessage);
+
+        Optional<User> author = referencedMessage.getAuthor();
+        if (author.isPresent()) return Optional.of(Pair.of(author.get().getUsername(), content));
+
+        Optional<Snowflake> webhookId = referencedMessage.getWebhookId();
+        if (webhookId.isPresent()) {
+            Webhook webhook = referencedMessage.getWebhook().block();
+            if (webhook != null) {
+                return Optional.of(Pair.of(webhook.getName().orElse("Unknown"), content));
+            }
+        }
+
+        return Optional.of(Pair.of("Unknown", content));
     }
 
     private String formatReplyForTelegram(Pair<String, String> reply) {
