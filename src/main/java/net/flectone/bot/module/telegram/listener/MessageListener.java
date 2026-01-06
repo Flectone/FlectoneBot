@@ -6,7 +6,6 @@ import com.google.common.cache.LoadingCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import discord4j.common.util.Snowflake;
 import lombok.RequiredArgsConstructor;
 import net.flectone.bot.config.Integration;
 import net.flectone.bot.module.discord.sender.MessageSender;
@@ -71,7 +70,7 @@ public class MessageListener implements LongPollingSingleThreadUpdateConsumer {
 
         logger.info("TELEGRAM chat_id={}, author_id={}, message_id={}", chatId, author.getId(), message.getMessageId());
 
-        Long discordChannelId = config().channels().get(chatId);
+        String discordChannelId = config().channels().get(chatId);
         if (discordChannelId == null) return;
 
         String text = message.getText();
@@ -95,7 +94,7 @@ public class MessageListener implements LongPollingSingleThreadUpdateConsumer {
         String avatar = getUserPhoto(author);
         String formatReply = formatReplyForDiscord(reply);
 
-        discordMessageSender.sendMessage(userName.isEmpty() ? firstName : userName, Snowflake.of(discordChannelId), fileFacade.integration().discord(), s -> StringUtils.replaceEach(
+        discordMessageSender.sendMessage(userName.isEmpty() ? firstName : userName, discordChannelId, fileFacade.integration().discord(), s -> StringUtils.replaceEach(
                 s,
                 new String[]{"<name>", "<user_name>", "<first_name>", "<last_name>", "<chat>", "<message>", "<avatar>", "<reply>"},
                 new String[]{userName, userName, firstName, lastName, StringUtils.defaultString(chat), text, avatar, formatReply}

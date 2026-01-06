@@ -230,7 +230,7 @@ public record Integration(
             Mode parseMode,
             String formatReply,
             String message,
-            Map<String, Long> channels
+            Map<String, String> channels
     ) {
 
         public enum Mode {

@@ -7,6 +7,7 @@ import discord4j.core.event.domain.interaction.DeferrableInteractionEvent;
 import discord4j.core.object.component.ActionRow;
 import discord4j.core.object.component.Button;
 import discord4j.core.object.component.MessageComponent;
+import discord4j.core.object.entity.channel.ForumChannel;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.InteractionApplicationCommandCallbackSpec;
 import discord4j.core.spec.MessageCreateSpec;
@@ -42,7 +43,7 @@ public class MessageSender {
         channelWebhooks.put(channelId, webhookData);
     }
 
-    public void sendMessage(String sender, Snowflake channel, Integration.WithEmbed channelEmbed, UnaryOperator<String> discordString, List<Button> buttons) {
+    public void sendMessage(String sender, String channel, Integration.WithEmbed channelEmbed, UnaryOperator<String> discordString, List<Button> buttons) {
         if (channelEmbed == null) return;
 
         Integration.Discord.Embed messageEmbed = channelEmbed.embed();
@@ -52,17 +53,18 @@ public class MessageSender {
             embed = createEmbed(messageEmbed, discordString);
         }
 
+        Snowflake channelId = parseChannelId(channel);
+        Snowflake threadId = parseThreadId(channel);
+
         String webhookAvatar = channelEmbed.webhookAvatar();
         if (StringUtils.isNotEmpty(webhookAvatar)) {
-            long channelID = channel.asLong();
-
-            WebhookData webhookData = channelWebhooks.get(channelID);
+            WebhookData webhookData = channelWebhooks.get(channelId.asLong());
 
             if (webhookData == null) {
-                webhookData = createWebhook(channelID);
+                webhookData = createWebhook(channelId.asLong());
                 if (webhookData == null) return;
 
-                channelWebhooks.put(channelID, webhookData);
+                channelWebhooks.put(channelId.asLong(), webhookData);
             }
 
             ImmutableWebhookExecuteRequest.Builder webhookBuilder = WebhookExecuteRequest.builder()
@@ -89,12 +91,22 @@ public class MessageSender {
                 webhookBuilder.addAllComponents(buttonData);
             }
 
-            discordBot.getDiscordClient().getWebhookService().executeWebhook(
-                    webhookData.id().asLong(),
-                    webhookData.token().get(),
-                    false,
-                    MultipartRequest.ofRequest(webhookBuilder.build())
-            ).subscribe();
+            if (threadId == null) {
+                discordBot.getDiscordClient().getWebhookService().executeWebhook(
+                        webhookData.id().asLong(),
+                        webhookData.token().get(),
+                        false,
+                        MultipartRequest.ofRequest(webhookBuilder.build())
+                ).subscribe();
+            } else {
+                discordBot.getDiscordClient().getWebhookService().executeWebhook(
+                        webhookData.id().asLong(),
+                        webhookData.token().get(),
+                        false,
+                        threadId.asLong(),
+                        MultipartRequest.ofRequest(webhookBuilder.build())
+                ).subscribe();
+            }
 
             return;
         }
@@ -110,9 +122,19 @@ public class MessageSender {
 
         messageCreateSpecBuilder.content(content).components(ActionRow.of(buttons));
 
-        discordBot.getDiscordClient().getChannelById(channel)
-                .createMessage(messageCreateSpecBuilder.build().asRequest())
-                .subscribe();
+        if (threadId == null) {
+            discordBot.getDiscordClient().getChannelById(channelId)
+                    .createMessage(messageCreateSpecBuilder.build().asRequest())
+                    .subscribe();
+        } else {
+            discordBot.getGateway().getChannelById(channelId)
+                    .ofType(ForumChannel.class)
+                    .flatMapMany(ForumChannel::getActiveThreads)
+                    .filter(thread -> thread.getId().equals(threadId))
+                    .next()
+                    .flatMap(thread -> thread.createMessage(messageCreateSpecBuilder.build()))
+                    .subscribe();
+        }
     }
 
     private WebhookData createWebhook(long channelID) {
@@ -232,7 +254,7 @@ public class MessageSender {
 
         return event.deferReply()
                 .withEphemeral(true)
-                .then(Mono.fromRunnable(() -> sendMessage(senderName, channelId, withEmbed, formatter, buttons)))
+                .then(Mono.fromRunnable(() -> sendMessage(senderName, channelId.asString(), withEmbed, formatter, buttons)))
                 .then(event.deleteReply());
     }
 
@@ -255,4 +277,17 @@ public class MessageSender {
         ).then();
     }
 
+    private Snowflake parseChannelId(String channelId) {
+        int forumIndex = channelId.indexOf('_');
+        if (forumIndex == -1) return Snowflake.of(channelId);
+
+        return Snowflake.of(channelId.substring(0, forumIndex));
+    }
+
+    private Snowflake parseThreadId(String channelId) {
+        int forumIndex = channelId.indexOf('_');
+        if (forumIndex == -1) return null;
+
+        return Snowflake.of(channelId.substring(forumIndex + 1));
+    }
 }
