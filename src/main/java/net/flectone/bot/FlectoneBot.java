@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import net.flectone.bot.module.discord.DiscordBot;
+import net.flectone.bot.module.rag.RagBot;
 import net.flectone.bot.module.telegram.TelegramBot;
 import net.flectone.bot.platform.adapter.LoggerAdapter;
 import net.flectone.bot.platform.resolver.LibraryResolver;
@@ -51,6 +52,9 @@ public class FlectoneBot {
 
         FileFacade fileFacade = injector.getInstance(FileFacade.class);
         fileFacade.reload();
+
+        RagBot ragBot = injector.getInstance(RagBot.class);
+        ragBot.startup();
 
         DiscordBot discordBot = injector.getInstance(DiscordBot.class);
         discordBot.startup();

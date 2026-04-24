@@ -14,6 +14,7 @@ import java.util.Map;
 @Jacksonized
 public record Integration(
         Discord discord,
+        Rag rag,
         Telegram telegram
 ) {
 
@@ -31,6 +32,8 @@ public record Integration(
     public record Discord(
             String token,
             Long guildId,
+            Long roleIdForAi,
+            Long channelIdForAi,
             Map<Long, String> channels,
             String formatReply,
             String message,
@@ -220,6 +223,16 @@ public record Integration(
                 return discord4j.core.object.emoji.Emoji.of(emoji.id, emoji.name, emoji.animated);
             }
         }
+    }
+
+    @With
+    @Builder(toBuilder = true)
+    @Jacksonized
+    public record Rag(
+            String baseUrl,
+            String workspaceSlug,
+            String apiKey
+    ) {
     }
 
     @With
