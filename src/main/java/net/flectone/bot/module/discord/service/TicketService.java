@@ -16,6 +16,7 @@ import net.flectone.bot.config.Integration;
 import net.flectone.bot.module.discord.DiscordBot;
 import net.flectone.bot.module.discord.formatter.DiscordFormatter;
 import net.flectone.bot.module.discord.sender.MessageSender;
+import org.apache.commons.lang3.StringUtils;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -58,6 +59,7 @@ public class TicketService {
                 .flatMap(forum -> {
 
                     ForumThreadMessageCreateSpec.Builder messageThreadBuilder = ForumThreadMessageCreateSpec.builder()
+                            .content(StringUtils.isNotEmpty(modalConfig.message()) ? formatter.apply(modalConfig.message()) : "")
                             .addEmbed(embed);
 
                     List<Button> buttons = discordFormatter.createButtons(modalConfig, "_" + user.getId().asString());
