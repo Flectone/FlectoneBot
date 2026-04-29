@@ -375,6 +375,7 @@ public class RAGClient {
             }
 
             processStream(response.body().source());
+            response.close();
         }
 
         private void processStream(BufferedSource source) throws IOException {
@@ -389,7 +390,12 @@ public class RAGClient {
                 JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
 
                 if (jsonObject.has("textResponse")) {
-                    String chunk = jsonObject.get("textResponse").getAsString();
+                    String chunk;
+                    try {
+                        chunk = jsonObject.get("textResponse").getAsString();
+                    } catch (Exception e) {
+                        chunk = String.valueOf(jsonObject.get("textResponse"));
+                    }
 
                     if (detector.isLooping(chunk)) {
                         logger.warn("Repetition loop detected in stream, stopping");
