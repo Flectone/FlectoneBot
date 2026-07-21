@@ -34,6 +34,7 @@ public record Integration(
             Long guildId,
             Long roleIdForAi,
             Long channelIdForAi,
+            Long channelIdForHoneypot,
             Map<Long, String> channels,
             String formatReply,
             String message,

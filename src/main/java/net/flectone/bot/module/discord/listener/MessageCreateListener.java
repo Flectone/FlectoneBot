@@ -6,6 +6,7 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.emoji.Emoji;
 import discord4j.core.object.entity.*;
 import discord4j.core.object.entity.channel.MessageChannel;
+import discord4j.core.spec.BanQuerySpec;
 import discord4j.core.spec.MessageEditSpec;
 import discord4j.discordjson.json.MessageReferenceData;
 import discord4j.discordjson.possible.Possible;
@@ -52,7 +53,10 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
             return Mono.empty();
         }
 
-        logMessageReceived(discordMessage, member);
+        if (discordMessage.getChannelId().asLong() == getConfig().channelIdForHoneypot()) {
+            logger.info("BAN SCAM chat_id={}, author_id={}, message_id={}", discordMessage.getChannelId().asLong(), member.getId().asLong(), discordMessage.getId().asLong());
+            return member.ban(BanQuerySpec.builder().reason("Scam in honeypot channel").deleteMessageSeconds(60).build());
+        }
 
         if (shouldHandleWithRag(discordMessage)) {
             handleRagMessage(discordMessage, member);
@@ -60,13 +64,6 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
         }
 
         return handleTelegramBridge(discordMessage, member);
-    }
-
-    private void logMessageReceived(Message message, Member member) {
-        logger.info("DISCORD chat_id={}, author_id={}, message_id={}",
-                message.getChannelId().asLong(),
-                member.getId().asLong(),
-                message.getId().asLong());
     }
 
     private boolean shouldHandleWithRag(Message message) {

@@ -3,6 +3,7 @@ discord:
   guild_id: 861147957365964810
   role_id_for_ai: 0
   channel_id_for_ai: 0
+  channel_id_for_honeypot: 0
   channels:
     1275976717487575091: "-1002346620480_5"
     966374194361286666: "-1002346620480_624"
