@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import net.flectone.bot.config.Integration;
 import net.flectone.bot.module.discord.DiscordBot;
 import net.flectone.bot.module.rag.RagBot;
+import net.flectone.bot.module.telegram.TelegramBot;
 import net.flectone.bot.module.telegram.sender.MessageSender;
 import net.flectone.bot.util.file.FileFacade;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +39,7 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
     private final Logger logger;
     private final RagBot ragBot;
     private final DiscordBot discordBot;
+    private final TelegramBot telegramBot;
 
     @Override
     public Class<MessageCreateEvent> getEventType() {
@@ -168,6 +170,8 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
     }
 
     private Mono<Void> handleTelegramBridge(Message message, Member member) {
+        if (!telegramBot.isEnabled()) return Mono.empty();
+
         Integration.Discord config = getConfig();
         String telegramChannelId = config.channels().get(message.getChannelId().asLong());
 

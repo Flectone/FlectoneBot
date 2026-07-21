@@ -61,11 +61,17 @@ public class TelegramBot implements Bot {
     }
 
     public void executeMethod(BotApiMethod<?> method) {
+        if (!isEnabled()) return;
+
         try {
             telegramClient.executeAsync(method);
         } catch (TelegramApiException e) {
            logger.warn(e);
         }
+    }
+
+    public boolean isEnabled() {
+        return botsApplication != null && botsApplication.isRunning();
     }
 
 }
