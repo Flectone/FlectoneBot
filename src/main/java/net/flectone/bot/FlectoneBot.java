@@ -3,17 +3,10 @@ package net.flectone.bot;
 import com.alessiodp.libby.LibraryManager;
 import com.alessiodp.libby.StandaloneLibraryManager;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Singleton;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import net.flectone.bot.module.discord.DiscordBot;
-import net.flectone.bot.module.rag.RagBot;
-import net.flectone.bot.module.telegram.TelegramBot;
+import net.flectone.bot.core.BotApplication;
 import net.flectone.bot.platform.adapter.LoggerAdapter;
 import net.flectone.bot.platform.resolver.LibraryResolver;
-import net.flectone.bot.util.file.FileFacade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,57 +14,47 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.CountDownLatch;
 
-@Singleton
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
-public class FlectoneBot {
+public final class FlectoneBot {
 
-    private final Injector injector;
+    private FlectoneBot() {
+    }
 
     public static void main(String[] args) {
-        org.apache.logging.log4j.Logger logger = LogManager.getLogger(FlectoneBot.class);
-        logger.info("Enabling...");
+        Logger logger = LogManager.getLogger(FlectoneBot.class);
+        Path projectPath = Paths.get(System.getProperty("user.dir")).resolve(BuildConfig.PROJECT_NAME);
 
-        Path projectPath = Paths.get(System.getProperty("user.dir")).resolve("FlectoneBot");
+        logger.info("Starting {} {}", BuildConfig.PROJECT_NAME, BuildConfig.PROJECT_VERSION);
 
         LoggerAdapter loggerAdapter = new LoggerAdapter(logger);
         LibraryManager libraryManager = new StandaloneLibraryManager(loggerAdapter, projectPath, "libraries");
+
         LibraryResolver libraryResolver = new LibraryResolver(libraryManager);
         libraryResolver.addLibraries();
         libraryResolver.resolveRepositories();
         libraryResolver.loadLibraries();
 
-        Injector injector = Guice.createInjector(new FlectoneInjector(logger, projectPath, loggerAdapter, libraryManager, libraryResolver));
-        FlectoneBot flectoneBot = new FlectoneBot(injector);
-        flectoneBot.start();
-    }
+        Injector injector = Guice.createInjector(new BotModule(logger, projectPath, loggerAdapter, libraryManager, libraryResolver));
+        BotApplication application = injector.getInstance(BotApplication.class);
 
-    @SneakyThrows
-    public void start() {
-        Logger logger = injector.getInstance(Logger.class);
-        logger.info("Starting...");
-
-        FileFacade fileFacade = injector.getInstance(FileFacade.class);
-        fileFacade.reload();
-
-        RagBot ragBot = injector.getInstance(RagBot.class);
-        ragBot.startup();
-
-        DiscordBot discordBot = injector.getInstance(DiscordBot.class);
-        discordBot.startup();
-
-        TelegramBot telegramBot = injector.getInstance(TelegramBot.class);
-        telegramBot.startup();
-
-        CountDownLatch latch = new CountDownLatch(1);
+        CountDownLatch running = new CountDownLatch(1);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("Shutting down...");
-            discordBot.shutdown();
-            telegramBot.shutdown();
-        }));
+            application.stop();
+            running.countDown();
+        }, "flectonebot-shutdown"));
 
-        latch.await();
+        try {
+            application.start();
+            running.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            logger.error("Startup failed", e);
+            application.stop();
+        }
 
         logger.info("Shutdown completed");
     }
+
 }

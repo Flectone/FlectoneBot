@@ -1,395 +1,277 @@
 discord:
   token: "${DISCORD_FLECTONE_BOT_TOKEN}"
   guild_id: 861147957365964810
-  role_id_for_ai: 0
-  channel_id_for_ai: 0
-  channel_id_for_honeypot: 0
+  role_id_for_ai: 868425486227886132
+  channel_id_for_ai: 1493925113945653289
+  channel_id_for_honeypot: 1529190917452595250
+  ai_note: "-# Это ответ нейросети, она может ошибаться и выдумывать\n-# This answer comes from an AI, it can be wrong and make things up"
   channels:
     1275976717487575091: "-1002346620480_5"
     966374194361286666: "-1002346620480_624"
     861174287644753934: "-1002346620480_84"
     861147957813575690: "-1002346620480_541"
     861174260432371752: "-1002337857883"
-  format_reply: "Ответ на @<reply_user>: <reply_message>} "
-  message: "[Telegram] <reply><message>"
+  format_reply: "> Ответ на @<reply_user>: <reply_message>\n"
+  message: "<reply>[Telegram] <message>"
   webhook_avatar: "<avatar>"
   messages:
     no_permission: "❌ Нет прав / No permissions"
     unknown_command: "❌ Неизвестная команда / Unknown command"
-    command_error: "❌ Произошла ошибка при выполнении команды / An error occurred when executing the command"
-    ticket_close_no_permission: "❌ Только создатель тикета или модератор может его закрыть / Only the ticket creator or moderator can close it "
-    ticket_closed: "✅ Тикет закрыт / Ticket closed"
+    command_error: "❌ Команда сломалась / Command failed"
+    post_close_no_permission: "❌ Закрыть может автор темы или модератор / Only the author or a moderator can close it"
+    post_closed: "✅ Тема закрыта / Post closed"
+    not_post: "❌ Это не тема форума / This is not a forum post"
   presence:
     enable: true
     status: "ONLINE"
     activity:
       enable: true
-      type: "PLAYING"
-      name: "FlectoneBot LETS GO"
+      type: "WATCHING"
+      name: "#ai-bot channel"
       url: "https://flectone.net/pulse/"
-  ticket:
+  forum:
+    forum_ids:
+    - 1271850075064369152
     permission_role: 959813465025949747
     close_tag_id: 1285574391144644630
-    modals:
-      russian_idea:
-        name: "Предложение"
+    paste:
+      link_pattern: "https?://(?:www\\.)?pastes\\.dev/([A-Za-z0-9]+)"
+      raw_url: "https://api.pastes.dev/<key>"
+    release:
+      api_url: "https://api.github.com/repos/Flectone/FlectonePulse/releases/latest"
+      cache_minutes: 30
+      outdated: "Outdated, update to <latest_version>"
+      current: "Up to date"
+      ahead: "Newer than <latest_version>"
+      snapshot: "Snapshot build"
+      unknown: "Not checked"
+    created:
+      embed:
+        color: "#95a5a6"
+        description: "Закрыть тему может автор или модератор, кнопка ниже\nThe author or a moderator can close the post, button below"
+      buttons:
+      - id: "close_button"
+        name: "🔒 Закрыть / Close"
+        style: "SECONDARY"
+    tags:
+      1271852440047714324:
         embed:
-          color: "#2ecc71"
-          title: "<name>"
-          author:
-            name: "Предложение от <username>"
-            icon_url: "<skin>"
-          description: "<description>"
-          fields:
-            - name: "Платформа"
-              value: "``<platform>``"
-              inline: false
-          timestamp: true
-        create_message:
-          message: "Предложение создано, перейди в <thread>"
-        forum_id: 1271850075064369152
-        tag_id: 1271852198359466034
-        text_inputs:
-          - id: "name"
-            name: "Название"
-            placeholder: "Добавить новые сообщения..."
-            style: "SHORT"
-            max_length: 100
-            required: true
-          - id: "description"
-            name: "Описание"
-            placeholder: "Я хочу, чтобы добавили..."
-            style: "PARAGRAPH"
-            max_length: 1000
-            required: true
-          - id: "platform"
-            name: "Платформа, версия FlectonePulse"
-            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
-            style: "SHORT"
-            max_length: 100
-            required: true
-        buttons:
-          - id: "close_button"
-            name: "🔒 Закрыть"
-            style: "SECONDARY"
-      russian_bug:
-        name: "Баг"
+          color: "#f1c40f"
+          description: "Личная помощь есть у бустеров https://boosty.to/thefaser\nБыстрее спросить в <#1493925113945653289>, там отвечает нейросеть и может ошибаться\n\nPersonal help goes to boosters https://boosty.to/thefaser\nAsk in <#1493925113945653289> for a quick answer, an AI answers there and it can be wrong"
+      1271852374931279974:
         embed:
           color: "#5865f2"
-          title: "<name>"
-          author:
-            name: "Баг от <username>"
-            icon_url: "<skin>"
-          description: "<description>"
-          fields:
-            - name: "Платформа"
-              value: "``<platform>``"
-              inline: false
-            - name: "Плагины/Моды"
-              value: "``<plugins>``"
-              inline: false
-          timestamp: true
-        create_message:
-          message: "Информация о баге создана, перейди в <thread>"
-        forum_id: 1271850075064369152
-        tag_id: 1271852374931279974
-        text_inputs:
-          - id: "name"
-            name: "Название"
-            placeholder: "Не запускается..."
-            style: "SHORT"
-            max_length: 100
-            required: true
-          - id: "description"
-            name: "Описание"
-            placeholder: "Я хочу запустить, но не запускается..."
-            style: "PARAGRAPH"
-            max_length: 1000
-            required: true
-          - id: "platform"
-            name: "Платформа, версия FlectonePulse"
-            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
-            style: "SHORT"
-            max_length: 100
-            required: true
-          - id: "plugins"
-            name: "Список плагинов или модов на сервере"
-            placeholder: "FlectonePulse, Vault, LuckPerms..."
-            style: "PARAGRAPH"
-            max_length: 1000
-            required: true
-        buttons:
-          - id: "close_button"
-            name: "🔒 Закрыть"
-            style: "SECONDARY"
-      russian_question:
-        name: "Вопрос"
-        embed:
-          color: "#7f8c8d"
-          title: "<name>"
-          author:
-            name: "Вопрос от <username>"
-            icon_url: "<skin>"
-          description: "<description>"
-          fields:
-            - name: "Платформа"
-              value: "``<platform>``"
-              inline: false
-          timestamp: true
-        create_message:
-          message: "Вопрос создан, перейди в <thread>"
-        forum_id: 1271850075064369152
-        tag_id: 1271852440047714324
-        text_inputs:
-          - id: "name"
-            name: "Название"
-            placeholder: "Как включить имена над игроками?"
-            style: "SHORT"
-            max_length: 100
-            required: true
-          - id: "description"
-            name: "Описание"
-            placeholder: "Я хочу чтобы над игроками были видны их имена..."
-            style: "PARAGRAPH"
-            max_length: 1000
-            required: true
-          - id: "platform"
-            name: "Платформа, версия FlectonePulse"
-            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
-            style: "SHORT"
-            max_length: 100
-            required: true
-        buttons:
-          - id: "close_button"
-            name: "🔒 Закрыть"
-            style: "SECONDARY"
-      english_idea:
-        name: "Suggestion"
-        embed:
-          color: "#2ecc71"
-          title: "<name>"
-          author:
-            name: "Suggestion from <username>"
-            icon_url: "<skin>"
-          description: "<description>"
-          fields:
-            - name: "Platform"
-              value: "``<platform>``"
-              inline: false
-          timestamp: true
-        create_message:
-          message: "Suggestion created, go to <thread>"
-        forum_id: 1271850075064369152
-        tag_id: 1271852198359466034
-        text_inputs:
-          - id: "name"
-            name: "Title"
-            placeholder: "Add new messages..."
-            style: "SHORT"
-            max_length: 100
-            required: true
-          - id: "description"
-            name: "Description"
-            placeholder: "I want to add..."
-            style: "PARAGRAPH"
-            max_length: 1000
-            required: true
-          - id: "platform"
-            name: "Platform, FlectonePulse version"
-            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
-            style: "SHORT"
-            max_length: 100
-            required: true
-        buttons:
-          - id: "close_button"
-            name: "🔒 Close"
-            style: "SECONDARY"
-      english_bug:
-        name: "Bug"
-        embed:
-          color: "#5865f2"
-          title: "<name>"
-          author:
-            name: "Bug from <username>"
-            icon_url: "<skin>"
-          description: "<description>"
-          fields:
-            - name: "Platform"
-              value: "``<platform>``"
-              inline: false
-            - name: "Plugins/Mods"
-              value: "``<plugins>``"
-              inline: false
-          timestamp: true
-        create_message:
-          message: "Bug report created, go to <thread>"
-        forum_id: 1271850075064369152
-        tag_id: 1271852374931279974
-        text_inputs:
-          - id: "name"
-            name: "Title"
-            placeholder: "Doesn't start..."
-            style: "SHORT"
-            max_length: 100
-            required: true
-          - id: "description"
-            name: "Description"
-            placeholder: "I want to start it, but it doesn't start..."
-            style: "PARAGRAPH"
-            max_length: 1000
-            required: true
-          - id: "platform"
-            name: "Platform, FlectonePulse version"
-            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
-            style: "SHORT"
-            max_length: 100
-            required: true
-          - id: "plugins"
-            name: "List of plugins or mods on the server"
-            placeholder: "FlectonePulse, Vault, LuckPerms..."
-            style: "PARAGRAPH"
-            max_length: 1000
-            required: true
-        buttons:
-          - id: "close_button"
-            name: "🔒 Close"
-            style: "SECONDARY"
-      english_question:
-        name: "Question"
-        embed:
-          color: "#7f8c8d"
-          title: "<name>"
-          author:
-            name: "Question from <username>"
-            icon_url: "<skin>"
-          description: "<description>"
-          fields:
-            - name: "Platform"
-              value: "``<platform>``"
-              inline: false
-          timestamp: true
-        create_message:
-          message: "Question created, go to <thread>"
-        forum_id: 1271850075064369152
-        tag_id: 1271852440047714324
-        text_inputs:
-          - id: "name"
-            name: "Title"
-            placeholder: "How to enable player names above heads?"
-            style: "SHORT"
-            max_length: 100
-            required: true
-          - id: "description"
-            name: "Description"
-            placeholder: "I want to see player names above their heads..."
-            style: "PARAGRAPH"
-            max_length: 1000
-            required: true
-          - id: "platform"
-            name: "Platform, FlectonePulse version"
-            placeholder: "Paper 1.21.11 (Velocity). FlectonePulse 1.7.3"
-            style: "SHORT"
-            max_length: 100
-            required: true
-        buttons:
-          - id: "close_button"
-            name: "🔒 Close"
-            style: "SECONDARY"
+          description: "Расскажи что происходит и что ты ждал вместо этого, приложи логи сервера\nTell what happens and what you expected instead, attach the server logs"
+    dump:
+      embed:
+        color: "#4287f5"
+        title: "FlectonePulse <project_version>"
+        url: "<paste_url>"
+        author:
+          name: "<username>"
+          icon_url: "<skin>"
+        fields:
+        - name: "Version"
+          value: "<version_status>"
+          inline: false
+        - name: "Core"
+          value: "``<server_core> <server_version>``"
+          inline: true
+        - name: "Proxy"
+          value: "``<proxy_mode>``"
+          inline: true
+        - name: "Database"
+          value: "``<database_mode>``"
+          inline: true
+        - name: "Java"
+          value: "``<java_version>``"
+          inline: true
+        - name: "OS"
+          value: "``<os_name> <os_version> (<os_architecture>)``"
+          inline: true
+        - name: "Hardware"
+          value: "``<cpu_cores> CPU, <total_ram>``"
+          inline: true
+        - name: "Online mode"
+          value: "``<online_mode>``"
+          inline: true
+        - name: "Players"
+          value: "``<player_count>``"
+          inline: true
+        - name: "Language"
+          value: "``<project_language>``"
+          inline: true
+        - name: "Modules <modules_enabled_count>/<modules_count>"
+          value: "```<modules_summary>```"
+          inline: false
+        - name: "Disabled <modules_disabled_count>"
+          value: "``<modules_disabled>``"
+          inline: false
+        footer:
+          text: "<created_at>"
+    no_link:
+      message: "<user>"
+      embed:
+        color: "#f24916"
+        description: "Скинь ссылку из `/flectonepulse dump`, без неё мы не разберёмся и тему закроем\nSend the link from `/flectonepulse dump`, without it we can't help and the post gets closed"
+    error:
+      message: "<user>"
+      embed:
+        color: "#e74c3c"
+        description: "По этой ссылке нет данных FlectonePulse, проверь что она из `/flectonepulse dump`\nThis link has no FlectonePulse data, make sure it comes from `/flectonepulse dump`"
   commands:
-    - name: "пинг"
-      description: "Проверить задержку бота"
-      message: "Понг 🏓"
-      private_reply: false
-      options: []
-    - name: "информация"
-      description: "Гайды на всю жизнь"
-      message: "https://www.youtube.com/watch?v=WHPxQxY33Is"
-      private_reply: false
-      options:
-        - type: "SUB_COMMAND"
-          name: "форум"
-          description: "Гайд на форум"
-          message: "Не знаешь как написать и использовать форум https://discord.com/channels/861147957365964810/1271850075064369152? \nПосмотри этот гайд https://www.youtube.com/watch?v=WHPxQxY33Is"
-        - type: "SUB_COMMAND"
-          name: "флектонпульс"
-          description: "Документация для FlectonePulse"
-          message: "Документация для FlectonePulse https://flectone.net/pulse/docs/"
-        - type: "SUB_COMMAND"
-          name: "ютуб"
-          description: "Ютуб канал Фасэра"
-          message: "Ютуб канал Фасэра https://www.youtube.com/@thefaser/videos"
-        - type: "SUB_COMMAND"
-          name: "бусти"
-          description: "Поддержать Фасэра и его проекта"
-          message: "Поддержать Фасэра и его проекты можно тут https://boosty.to/thefaser, спасибо :heart:"
-    - name: "паста"
-      description: "Случайные пасты из интернета"
-      message: "https://www.youtube.com/watch?v=WHPxQxY33Is"
-      private_reply: false
-      options:
-        - type: "SUB_COMMAND"
-          name: "окак"
-          description: "окак"
-          message: " ⠀⠀⠀⠀⠀⢀⣾⡇⠀⠀⠀⠀⠀⢐⣷⡀⠀⠀⠀⠀⠀\n ⠀⠀⠀⠀⠀⣾⣿⠅⠀⠀⠀⠀⠀⠀⢿⣷⠀⠀⠀⠀⠀\n ⠀⠀⠀⠀⢰⡿⠃⠀⠀⠀⠀⠀⠀⠀⠘⣿⡆⠀⠀⠀⠀\n ⠀⠀⠀⠀⣾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣇⠀⠀⠀⠀\n ⠀⠀⠀⠀⡇⠀⡤⣶⡄⠀⠀⠀⢠⣶⢶⡄⢹⠀⠀⠀⠀\n ⠀⠀⠀⢸⠀⠀⠷⣤⠿⠀⠀⠀⠹⣤⠼⠃⠈⠀⠀⠀⠀\n ⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀\n ⠀⠀⠀⡆⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⡇⠀⠀\n ⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢇⠀⠀⠀\n ⠀⠀⣤⣶⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡘⠈⠙⢦⡀\n ⢠⣾⣿⠇⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉\n ⣾⣼⣿⠃⢸⣇⠀⠀⣴⠶⣤⢠⡆⣠⡖⢠⠶⢦⡀⣴⢀⡴\n ⣿⡟⢸⡆⠘⡟⠀⠸⣧⣀⣿⢸⡟⢿⡄⢴⣋⣹⡇⣿⠻⣧"
-        - type: "SUB_COMMAND"
-          name: "кабан"
-          description: "кабан"
-          message: "МУЖИКИ Я С СЫНИШКОЙ БЕГУ НЕ ШМАЛЯЙТЕ ХРИСТА РАДИ⠀\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \n ⠀⠀⠀⠀⠀⠀⣶⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣤⣀⡀⢀⡤⠒⣦⠀ \n ⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠘⠀ \n ⠠⣴⡾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀ \n ⠀⠉⢭⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢉⣉⣀⣠⣤⣄⣀⡈⠉⢃⠀⠀⠀ \n ⠀⠀⠀⠉⠙⠉⠋⠛⠛⣛⣿⣿⣿⣿⠏⣁⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⡀⠁⡀⠀ \n ⠀⠀⠀⠀⠀⠀⠀⢀⣼⠛⠉⠹⢿⣭⠀⠀⠓⠛⢛⣻⣿⡟⠿⠟⣿⢿⣧⡀⣧⠀ \n ⠀⠀⠀⠀⠀⠀⠀⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠊⠉⠉⠀⠀⠊⠀⠀⠀⠇⢹⠆\n"
-        - type: "SUB_COMMAND"
-          name: "селюк"
-          description: "селюк"
-          message: "Ты меня интересовал только как источник заработка зачем ты думаешь что ты мне нравился ты же селюк это же надо уметь так врать\n\nИ айкью низкий мне с тобой не интересно \nПовторяешь фразы по сто раз\nМнишь себя каким то литературным критиком\nДва слова связать не можешь"
-    - name: "ticket"
-      description: "Создать тикет"
-      permission_role: 959813465025949747
-      private_reply: false
-      options:
-        - type: "SUB_COMMAND"
-          name: "russian"
-          description: "Тикет для форума FlectonePulse"
-          embed:
-            color: "#4287f5"
-            title: "Тикет для форума FlectonePulse"
-            description: "Если возникла ошибка, есть идея или появился вопрос, то нажмите на одну из кнопок ниже, чтобы создать тикет"
-          buttons:
-            - id: "russian_idea"
-              name: "💡 Предложение"
-              style: "SUCCESS"
-            - id: "russian_bug"
-              name: "🐛 Баг"
-              style: "PRIMARY"
-            - id: "russian_question"
-              name: "🤔 Вопрос"
-              style: "SECONDARY"
-        - type: "SUB_COMMAND"
-          name: "english"
-          description: "Ticket for FlectonePulse forum"
-          embed:
-            color: "#4287f5"
-            title: "Ticket for FlectonePulse forum"
-            description: "If you have an error, suggestion, or question, click one of buttons below to create a ticket"
-          buttons:
-            - id: "english_idea"
-              name: "💡 Suggestion"
-              style: "SUCCESS"
-            - id: "english_bug"
-              name: "🐛 Bug"
-              style: "PRIMARY"
-            - id: "english_question"
-              name: "🤔 Question"
-              style: "SECONDARY"
+  - name: "пинг"
+    description: "Проверить задержку бота"
+    message: "Понг 🏓"
+    private_reply: false
+    options: []
+  - name: "информация"
+    description: "Гайды на всю жизнь"
+    message: "https://www.youtube.com/watch?v=WHPxQxY33Is"
+    private_reply: false
+    options:
+    - type: "SUB_COMMAND"
+      name: "форум"
+      description: "Гайд на форум"
+      message: "Не знаешь как написать и использовать форум https://discord.com/channels/861147957365964810/1271850075064369152? \nПосмотри этот гайд https://www.youtube.com/watch?v=WHPxQxY33Is"
+    - type: "SUB_COMMAND"
+      name: "флектонпульс"
+      description: "Документация для FlectonePulse"
+      message: "Документация для FlectonePulse https://flectone.net/pulse/docs/"
+    - type: "SUB_COMMAND"
+      name: "ютуб"
+      description: "Ютуб канал Фасэра"
+      message: "Ютуб канал Фасэра https://www.youtube.com/@thefaser/videos"
+    - type: "SUB_COMMAND"
+      name: "бусти"
+      description: "Поддержать Фасэра и его проекта"
+      message: "Поддержать Фасэра и его проекты можно тут https://boosty.to/thefaser, спасибо :heart:"
+  - name: "паста2"
+    description: "Случайные пасты из интернета (больше 25 в одной команде нельзя)"
+    message: "https://www.youtube.com/watch?v=WHPxQxY33Is"
+    private_reply: false
+    options:
+    - type: "SUB_COMMAND"
+      name: "памидори"
+      description: "памидори"
+      message: "https://media.discordapp.net/attachments/966374194361286666/1269834615477239848/image.png"
+    - type: "SUB_COMMAND"
+      name: "очкастый"
+      description: "очкастый"
+      message: "https://media.discordapp.net/attachments/966374194361286666/1256251168670355591/image.png"
+  - name: "паста"
+    description: "Случайные пасты из интернета"
+    message: "https://www.youtube.com/watch?v=WHPxQxY33Is"
+    private_reply: false
+    options:
+    - type: "SUB_COMMAND"
+      name: "окак"
+      description: "окак"
+      message: " ⠀⠀⠀⠀⠀⢀⣾⡇⠀⠀⠀⠀⠀⢐⣷⡀⠀⠀⠀⠀⠀\n ⠀⠀⠀⠀⠀⣾⣿⠅⠀⠀⠀⠀⠀⠀⢿⣷⠀⠀⠀⠀⠀\n ⠀⠀⠀⠀⢰⡿⠃⠀⠀⠀⠀⠀⠀⠀⠘⣿⡆⠀⠀⠀⠀\n ⠀⠀⠀⠀⣾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣇⠀⠀⠀⠀\n ⠀⠀⠀⠀⡇⠀⡤⣶⡄⠀⠀⠀⢠⣶⢶⡄⢹⠀⠀⠀⠀\n ⠀⠀⠀⢸⠀⠀⠷⣤⠿⠀⠀⠀⠹⣤⠼⠃⠈⠀⠀⠀⠀\n ⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀\n ⠀⠀⠀⡆⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⡇⠀⠀\n ⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢇⠀⠀⠀\n ⠀⠀⣤⣶⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡘⠈⠙⢦⡀\n ⢠⣾⣿⠇⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉\n ⣾⣼⣿⠃⢸⣇⠀⠀⣴⠶⣤⢠⡆⣠⡖⢠⠶⢦⡀⣴⢀⡴\n ⣿⡟⢸⡆⠘⡟⠀⠸⣧⣀⣿⢸⡟⢿⡄⢴⣋⣹⡇⣿⠻⣧"
+    - type: "SUB_COMMAND"
+      name: "кабан"
+      description: "кабан"
+      message: "МУЖИКИ Я С СЫНИШКОЙ БЕГУ НЕ ШМАЛЯЙТЕ ХРИСТА РАДИ⠀\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \n ⠀⠀⠀⠀⠀⠀⣶⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣤⣀⡀⢀⡤⠒⣦⠀ \n ⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠘⠀ \n ⠠⣴⡾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀ \n ⠀⠉⢭⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢉⣉⣀⣠⣤⣄⣀⡈⠉⢃⠀⠀⠀ \n ⠀⠀⠀⠉⠙⠉⠋⠛⠛⣛⣿⣿⣿⣿⠏⣁⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⡀⠁⡀⠀ \n ⠀⠀⠀⠀⠀⠀⠀⢀⣼⠛⠉⠹⢿⣭⠀⠀⠓⠛⢛⣻⣿⡟⠿⠟⣿⢿⣧⡀⣧⠀ \n ⠀⠀⠀⠀⠀⠀⠀⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠊⠉⠉⠀⠀⠊⠀⠀⠀⠇⢹⠆\n"
+    - type: "SUB_COMMAND"
+      name: "селюк"
+      description: "селюк"
+      message: "Ты меня интересовал только как источник заработка 🤑 Зачем ты думаешь, что ты мне нравился? ❤️ Ты же селюк 🧑‍🌾 Это же надо уметь так врать 🤥👏 И айкью низкий 🧠⬇️ Мне с тобой не интересно ❌ Повторяешь фразы по сто раз 💯 Мнишь себя каким-то литературным критиком! 📚😆"
+    - type: "SUB_COMMAND"
+      name: "крыса"
+      description: "крыса"
+      message: "🐀ко мне кто-то заполз блять, кто это? кот? ЕБАТЬ КРЫСА? 🐀иди нахуй отсюда дура! 🐀иди нахуй ебаная дура! 🐀иди нахуй отсюда ты че блять! иди нахуй! 🐀ебать, ебать!!! 🐀ебаная крыса здоровая🐀, ебаааать, бляяять🐀 ͏"
+    - type: "SUB_COMMAND"
+      name: "бхзххаббб"
+      description: "бхзххаббб"
+      message: "бхзххаббб :FeelsSpecialMan: бхзххаббб :FeelsSpecialMan: бхзххаббб :FeelsSpecialMan: бхзххаббб :FeelsSpecialMan: бхзххаббб :FeelsSpecialMan:"
+    - type: "SUB_COMMAND"
+      name: "улитка"
+      description: "улитка"
+      message: "Улитка заходит в бар, но бармен заявляет: У нас строгая политика в отношении улиток! — и ногой выпихивает ее на улицу. Через неделю улитка возвращается в бар и говорит бармену: Ну и нахуя ты это сделал!?"
+    - type: "SUB_COMMAND"
+      name: "сосал"
+      description: "сосал"
+      message: "Сосал? Да сосал, не притворяйся"
+    - type: "SUB_COMMAND"
+      name: "коробок"
+      description: "коробок"
+      message: "👽 А 😊 ТОЛКУ 😼 ТО 💥 ЕСЛИ 💨 ХУЕК 🤯 С КОРОБОК 😶‍🌫️"
+    - type: "SUB_COMMAND"
+      name: "базовыйминимум"
+      description: "базовыйминимум"
+      message: "📱 Айфон купи, 🍽 ресторан плати, 💍 без повода мне подари кольцо с моим именем, базовый минимум. 😌 Скучай, без повода обнимай, ай, ❤️ люби, цени, уважай, ай, 💃🕺 чувства самые сильные — это базовый минимум."
+    - type: "SUB_COMMAND"
+      name: "ищуженщину"
+      description: "ищуженщине"
+      message: "Напомню вам всем кто забыл что я ищу девушку но по условиям чтоб мне было удобно ведь мои условия они гениальны и считаю что они хорошие для девушки. Если тебе это не подходит то действуй и работой над собой чтоб я потом тебе не сказал что у тебя комплексы и ты мне не нравишься. Так вот мои условия.\n 1.У тебя должна быть своя квартира, желательно дорогая и роскошная как типо Москва-сити\n 2.Ты должна быть богатой и зарабатывать около 500к или 1 лям рублей, ну если ты способна на большее то это даже хорошо\n 3.У тебя должна быть машина и ты должна быть моим личным водителем чтобы вести куда угодно\n 4.Ты должна быть моделью чтоб привлекать тем самым аудиторию, я считаю это эффективный способ пиара отношений и любви\n 5.Ты должна быть пикми, няшей альтушкой или косплеершей. Что-то 1 из 4.\n 6.У тебя должна быть аудитория от 3 миллионов подписчиков и выше\n 7.Ты должна сократить количество своих друзей. Вдвоём будет веселее и наши друзья не понадобится, если только для временного сотрудничества.\n 8.Ты должна увлекаться аниме и комиксами поскольку это будет наше любимое занятие\n 9.Тебе будет запрещено пользоваться мной в разных соц сетях для пиара, пиарится ты будешь только на моих аккаунтах и тем самым с помощью себя я тебя популязирую так как я сильнее тебя в медиа сфере интернета\n 10.Ты должна быть от 18 до 23 лет. Милф не люблю ибо они больше жизни повидали и тем самым они уже старые\n 11.Ты должна обязательно быть за здоровый образ жизни, я не воспринимаю всякие сигареты, кальяны и т.д. Никаких татуировок ибо ты должна быть полностью чистой и за ЗОЖ\n 12.Ты должна иметь цветные волосы. Без цветных волос ты не будешь интересной мне, ведь я люблю когда всё яркое и заметное\n 13.Ты должна за мной ухаживать и обеспечивать чтобы со мной нечего не случилось\n Это всё. Действуй по этим условиям, будет тяжело но я уверен ты справишься:) "
+    - type: "SUB_COMMAND"
+      name: "гусь"
+      description: "гусь"
+      message: "ЗАПУСКАЕМ\n ░ГУСЯ░▄▀▀▀▄░РАБОТЯГИ░░\n ▄███▀░◐░░░▌░░░░░░░\n ░░░░▌░░░░░▐░░░░░░░\n ░░░░▐░░░░░▐░░░░░░░\n ░░░░▌░░░░░▐▄▄░░░░░\n ░░░░▌░░░░▄▀▒▒▀▀▀▀▄\n ░░░▐░░░░▐▒▒▒▒▒▒▒▒▀▀▄\n ░░░▐░░░░▐▄▒▒▒▒▒▒▒▒▒▒▀▄\n ░░░░▀▄░░░░▀▄▒▒▒▒▒▒▒▒▒▒▀▄\n ░░░░░░▀▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▀▄\n ░░░░░░░░░░░▌▌░▌▌░░░░░\n ░░░░░░░░░░░▌▌░▌▌░░░░░\n ░░░░░░░░░▄▄▌▌▄▌▌░░░░░\n"
+    - type: "SUB_COMMAND"
+      name: "мутанты"
+      description: "мутанты"
+      message: "МЫ МУТАНТЫ ИЗ КАНАЛИЗАЦИИ 🐸🐸🐸 ОБЛУЧЕННЫЕ РАДИАЦИЕЙ ☢️🐸☢️🐸 РАДИАЦИЕЙ ☢️🐸☢️🐸 РАДИАЦИЕЙ ☢️🐸☢️🐸 РАДИАЦИЕЕЕЕЙ ☢️🐸☢️🐸 ПОДРУЖИТЬСЯ Я ПОПЫТАЛСЯ 🐸🐸🐸 НО МЕНЯ БОЯТСЯ ☢️🐸☢️🐸 МЕНЯ БОЯТСЯ ☢️🐸☢️🐸 ОНИ БОЯТСЯ ☢️🐸☢️🐸 МЕНЯ БОЯТСЯ ☢️🐸☢️🐸 ОНИ БОЯТСЯ ☢️🐸☢️"
+    - type: "SUB_COMMAND"
+      name: "букварь"
+      description: "букварь"
+      message: "Чел, купи букварь, почитай книжек, может начнешь анализировать информацию, разовьешь критическое мышление, сейчас я даже спорить смысла не вижу, простыми словами говоря, я тебе про небо, ты мне про землю."
+    - type: "SUB_COMMAND"
+      name: "дымок"
+      description: "дымок"
+      message: "ПОШЁЛ ПО ЧАТИКУ ДЫМОК 🚬ﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞ: ПОШЁЛ ПО ЧАТИКУ ДЫМОК 🚬ﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞ:ПОШЁЛ ПО ЧАТИКУ ДЫМОК 🚬ﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞ: ПОШЁЛ ПО ЧАТИКУ ДЫМОК 🚬ﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞ:ПОШЁЛ ПО ЧАТИКУ ДЫМОК 🚬ﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞ:ПОШЁЛ ПО ЧАТИКУ ДЫМОК 🚬ﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞﱞ:"
+    - type: "SUB_COMMAND"
+      name: "пива"
+      description: "пива"
+      message: "внезапное 🍺 распитие 🍺 пива 🍺 в 🍺 чате 🍺внезапное 🍺 распитие 🍺 пива 🍺 в 🍺 чате 🍺внезапное 🍺 распитие 🍺 пива 🍺 в 🍺 чате 🍺."
+    - type: "SUB_COMMAND"
+      name: "яичка"
+      description: "яичка"
+      message: "🥚❗️Внимание🥚❗️ Кто прочитает, у того отрежут два яичка Извините, я сам попался Скопируй и можешь считать, что ничего не читал 🥚❗"
+    - type: "SUB_COMMAND"
+      name: "скил"
+      description: "скил"
+      message: "Привет. По скилу вижу, что ты новичок. Советую выбрать игру попроще, например Смешарики зимние игры. Набьешь скилл и создашь себе зимнее настроение!"
+    - type: "SUB_COMMAND"
+      name: "др"
+      description: "др"
+      message: "С 🥰днем😍 рождения! 🤩Успеха😘, радости, ☺ везения,🤗 Любви, 🥵желаний исполнения,🤯 и миллион ночей🌃 и дней! 🌄 С❤ днем🤗 рождения! 😇Любви😘 до головокружения, 🤪 И 😁чумового 🦄настроения, ✨и самых🎈 преданных друзей! 🎎🧏‍♂🧏"
+    - type: "SUB_COMMAND"
+      name: "алочные"
+      description: "алочные"
+      message: "Женщины... Алчные, Корыстные, Злобные. Согрешившие против самого человечества! Нельзя подаваться греху! Нужно бороться, сражаться, нельзя предавать 2D, сколь не было сильно искушение, будь тверд в вере своей. Знай, огонь святости что горит вдалеке ближе, и тем он ближе чем сильнее веришь ты, будь крепок"
+    - type: "SUB_COMMAND"
+      name: "умора"
+      description: "умора"
+      message: "👍😂ВОТ ЭТО Я ПОНИМАЮ УМОРА👍👍СРАЗУ ВИДНО ЧЕЛОВЕК С ХОРОШИМ ЧУВСТВОМ Ю-М-О-Р-А 😂😂😂 САМЫЙ ЮМОРНОЙ 👍👍ЗАЖИГАЛОЧКА 😂😂😂ХА ВОТ ТАК, НУ🤗"
+    - type: "SUB_COMMAND"
+      name: "поддержка"
+      description: "поддержка"
+      message: "тебе нужна поддержка? 🫵✊🤝включи это видео 🎧чшчшчшчшчшчшчшчшчшчш 🤫зайка, ну ты чего??? 😳 не расстраивайся 🌺это всего лишь игра 😣у тебя все обязательно получится🩵"
+    - type: "SUB_COMMAND"
+      name: "понос"
+      description: "понос"
+      message: "🤗 Знай 🤗 когда ты дочитал до этого момента 🤗 ты проклят на понос 🤗 Чтобы защититься от проклятья 🤗 перешли это сообщение в чате 🤗"
+    - type: "SUB_COMMAND"
+      name: "перекур"
+      description: "перекур"
+      message: "⣿⣿⣿⣿⣿⣿⣿⠿⠿⢛⣋⣙⣋⣩⣭⣭⣭⣭⣍⣉⡛⠻⢿⣿⣿⣿⣿\n ⣿⣿⣿⠟⣋⣥⣴⣾⣿⣿⣿⡆⣿⣿⣿⣿⣿⣿⡿⠟⠛⠗⢦⡙⢿⣿⣿ \n ⣿⡟⡡⠾⠛⠻⢿⣿⣿⣿⡿⠃⣿⡿⣿⠿⠛⠉⠠⠴⢶⡜⣦⡀⡈⢿⣿ \n ⡿⢀⣰⡏⣼⠋⠁⢲⡌⢤⣠⣾⣷⡄⢄⠠⡶⣾⡀⠀⣸⡷⢸⡷⢹⠈⣿ \n ⡇⢘⢿⣇⢻⣤⣠⡼⢃⣤⣾⣿⣿⣿⢌⣷⣅⡘⠻⠿⢛⣡⣿⠀⣾⢠⣿ \n ⣷⠸⣮⣿⣷⣨⣥⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢁⡼⠃⣼⣿ \n ⡟⠛⠛⠛⣿⠛⠛⢻⡟⠛⠛⢿⡟⠛⠛⡿⢻⡿⠛⡛⢻⣿⠛⡟⠛⠛⢿ \n ⡇⢸⣿⠀⣿⠀⠛⢻⡇⠸⠃⢸⡇⠛⢛⡇⠘⠃⢼⣷⡀⠃⣰⡇⠸⠇⢸ \n ⡇⢸⣿⠀⣿⠀⠛⢻⡇⢰⣿⣿⡇⠛⠛⣇⢸⣧⠈⣟⠃⣠⣿⡇⢰⣾⣿ \n ⣿⣿⣿⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢋⣿⠙⣷⢸⣷⠀⣿⣿⣿ \n ⣿⣿⣿⡇⢻⣿⣿⣿⡿⠿⢿⣿⣿⣿⠟⠋⣡⡈⠻⣇⢹⣿⣿⢠⣿⣿⣿ \n ⣿⣿⣿⣿⠘⣿⣿⣿⣿⣯⣽⣉⣿⣟⣛⠷⠙⢿⣷⣌⠀⢿⡇⣼⣿⣿⣿ \n ⣿⣿⣿⡿⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣤⡙⢿⢗⣀⣁⠈⢻⣿⣿ \n ⣿⡿⢋⣴⣿⣎⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡉⣯⣿⣷⠆⠙⢿ \n ⣏⠀⠈⠧⠡⠉⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠉⢉⣁⣀⣀"
+    - type: "SUB_COMMAND"
+      name: "насрал"
+      description: "насрал"
+      message: "⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠉⠉⠉⠉⠉⠉⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n ⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⢀⣠⣶⣶⣶⣶⣤⡀ ⠀ ⠹⣿⣿⣿⣿⣿⣿⣿\n ⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⣾⡿⢿⣿⣿⡿⢿⣿⡆ ⠀ ⢻⣿⣿⣿⣿⣿⣿\n ⣿⣿⣿⣿⣿⣿⡿⠃⠀⠀⠀⢿⣇⣸⣿⣿⣇⣸⡿⠃⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿\n ⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠉⠛⠛⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿\n ⢿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿\n ⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀Я НАСРАЛ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿\n ⣿⡟⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀МОДЕР УБЕРИ⠀ ⣧⠀⠀⠀⠀⠀ ⢿⣿\n ⣿⡇⠀⠀⠀⠀⠀⣾⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣧⠀⠀⠀⠀⠀⢸⣿\n ⣿⣇⠀⠀⣰⣶⣿⣿⣿⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣶⣆⠀⠀⢀⣿⣿\n ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⢸⣿⠇⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣤⣴⣾⣿⣶⣤⣤⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
 rag:
   base_url: "http://localhost:3001"
-  workspace_slug: ""
-  api_key: ""
+  workspace_slug: "y"
+  api_key: "${RAG_API_KEY}"
 telegram:
   token: "${TELEGRAM_FLECTONE_BOT_TOKEN}"
-  parse_mode: "MARKDOWN"
-  format_reply: "{Ответ на @<reply_user>: <reply_message>} "
-  message: "\\[Discord] <user_name>: <reply><message>"
+  parse_mode: "NONE"
+  format_reply: "[Ответ_на_@<reply_user>: <reply_message>] \n\n"
+  message: "<reply>[Discord] <user_name>: <message>"
   channels:
-    "-1002346620480_5": 1275976717487575091
-    "-1002346620480_624": 966374194361286666
-    "-1002346620480_84": 861174287644753934
-    "-1002346620480_541": 861147957813575690
-    "-1002337857883": 861174260432371752
+    "-1002346620480_5": "1271850075064369152_1275976717487575091"
+    "-1002346620480_624": "966374194361286666"
+    "-1002346620480_84": "861174287644753934"
+    "-1002346620480_541": "861147957813575690"
+    "-1002337857883": "861174260432371752"

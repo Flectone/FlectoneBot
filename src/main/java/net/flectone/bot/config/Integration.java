@@ -19,12 +19,22 @@ public record Integration(
 ) {
 
     public interface WithEmbed {
+
         @Nullable String message();
+
         @Nullable String webhookAvatar();
-        Integration.Discord.@Nullable Embed embed();
+
+        Discord.@Nullable Embed embed();
+
         @Nullable List<Discord.Button> buttons();
+
     }
 
+    public interface WithPermission {
+
+        @Nullable Long permissionRole();
+
+    }
 
     @With
     @Builder(toBuilder = true)
@@ -35,15 +45,16 @@ public record Integration(
             Long roleIdForAi,
             Long channelIdForAi,
             Long channelIdForHoneypot,
+            String aiNote,
             Map<Long, String> channels,
             String formatReply,
             String message,
             String webhookAvatar,
-            Discord.Embed embed,
-            List<Discord.Button> buttons,
+            Embed embed,
+            List<Button> buttons,
             Messages messages,
             Presence presence,
-            Ticket ticket,
+            Forum forum,
             List<Command> commands
     ) implements WithEmbed {
 
@@ -62,33 +73,33 @@ public record Integration(
                 Boolean timestamp,
                 Footer footer
         ) {
-            @With
-            @Builder(toBuilder = true)
-            @Jacksonized
-            public record Author(
-                    String name,
-                    String url,
-                    String iconUrl
-            ) {}
 
             @With
             @Builder(toBuilder = true)
             @Jacksonized
-            public record Footer(
-                    String text,
-                    String iconUrl
-            ) {}
+            public record Author(String name, String url, String iconUrl) {}
 
             @With
             @Builder(toBuilder = true)
             @Jacksonized
-            public record Field(
-                    String name,
-                    String value,
-                    Boolean inline
-            ) {}
+            public record Footer(String text, String iconUrl) {}
+
+            @With
+            @Builder(toBuilder = true)
+            @Jacksonized
+            public record Field(String name, String value, Boolean inline) {}
+
         }
 
+        @With
+        @Builder(toBuilder = true)
+        @Jacksonized
+        public record EmbedMessage(
+                String message,
+                String webhookAvatar,
+                Embed embed,
+                List<Button> buttons
+        ) implements WithEmbed {}
 
         @With
         @Builder(toBuilder = true)
@@ -97,9 +108,9 @@ public record Integration(
                 String noPermission,
                 String unknownCommand,
                 String commandError,
-                String ticketCloseNoPermission,
-                String ticketClosed,
-                String notAThread
+                String postCloseNoPermission,
+                String postClosed,
+                String notPost
         ) {}
 
         @With
@@ -110,61 +121,48 @@ public record Integration(
                 String status,
                 Activity activity
         ) {
+
             @With
             @Builder(toBuilder = true)
             @Jacksonized
-            public record Activity(
-                    Boolean enable,
-                    String type,
-                    String name,
-                    String url
-            ) {}
+            public record Activity(Boolean enable, String type, String name, String url) {}
+
         }
 
         @With
         @Builder(toBuilder = true)
         @Jacksonized
-        public record Ticket(
+        public record Forum(
+                List<Long> forumIds,
                 Long permissionRole,
                 Long closeTagId,
-                Map<String, Modal> modals
+                Paste paste,
+                Release release,
+                EmbedMessage created,
+                EmbedMessage dump,
+                EmbedMessage noLink,
+                EmbedMessage error,
+                Map<Long, EmbedMessage> tags
         ) implements WithPermission {
+
             @With
             @Builder(toBuilder = true)
             @Jacksonized
-            public record Modal(
-                    String name,
-                    String message,
-                    String webhookAvatar,
-                    Embed embed,
-                    CreateMessage createMessage,
-                    Long forumId,
-                    Long tagId,
-                    List<TextInput> textInputs,
-                    List<Button> buttons
-            ) implements WithEmbed {
-                @With
-                @Builder(toBuilder = true)
-                @Jacksonized
-                public record CreateMessage(
-                        String message,
-                        String webhookAvatar,
-                        Embed embed,
-                        List<Button> buttons
-                ) implements WithEmbed {}
+            public record Paste(String linkPattern, String rawUrl) {}
 
-                @With
-                @Builder(toBuilder = true)
-                @Jacksonized
-                public record TextInput(
-                        String id,
-                        String name,
-                        String placeholder,
-                        discord4j.core.object.component.TextInput.Style style,
-                        Integer maxLength,
-                        Boolean required
-                ) {}
-            }
+            @With
+            @Builder(toBuilder = true)
+            @Jacksonized
+            public record Release(
+                    String apiUrl,
+                    Long cacheMinutes,
+                    String outdated,
+                    String current,
+                    String ahead,
+                    String snapshot,
+                    String unknown
+            ) {}
+
         }
 
         @With
@@ -181,6 +179,7 @@ public record Integration(
                 List<Option> options,
                 List<Button> buttons
         ) implements WithPermission, WithEmbed {
+
             @With
             @Builder(toBuilder = true)
             @Jacksonized
@@ -195,10 +194,7 @@ public record Integration(
                     Boolean required,
                     List<Button> buttons
             ) implements WithPermission, WithEmbed {}
-        }
 
-        public interface WithPermission {
-            @Nullable Long permissionRole();
         }
 
         @With
@@ -210,20 +206,20 @@ public record Integration(
                 discord4j.core.object.component.Button.Style style,
                 Emoji emoji
         ) {
+
             @With
             @Builder(toBuilder = true)
             @Jacksonized
-            public record Emoji(
-                    Long id,
-                    String name,
-                    Boolean animated
-            ) {}
+            public record Emoji(Long id, String name, Boolean animated) {}
 
-            public discord4j.core.object.emoji.Emoji convertEmoji() {
+            public discord4j.core.object.emoji.@Nullable Emoji convertEmoji() {
                 if (emoji == null) return null;
-                return discord4j.core.object.emoji.Emoji.of(emoji.id, emoji.name, emoji.animated);
+
+                return discord4j.core.object.emoji.Emoji.of(emoji.id(), emoji.name(), Boolean.TRUE.equals(emoji.animated()));
             }
+
         }
+
     }
 
     @With
@@ -233,8 +229,7 @@ public record Integration(
             String baseUrl,
             String workspaceSlug,
             String apiKey
-    ) {
-    }
+    ) {}
 
     @With
     @Builder(toBuilder = true)
@@ -255,4 +250,5 @@ public record Integration(
         }
 
     }
+
 }

@@ -14,7 +14,7 @@ public interface IntegrationMerger {
 
     @Mapping(target = "messages", expression = "java(mergeMessages(target.build().messages().toBuilder(), source.messages()))")
     @Mapping(target = "presence", expression = "java(mergePresence(target.build().presence().toBuilder(), source.presence()))")
-    @Mapping(target = "ticket", expression = "java(mergeTicket(target.build().ticket().toBuilder(), source.ticket()))")
+    @Mapping(target = "forum", expression = "java(mergeForum(target.build().forum().toBuilder(), source.forum()))")
     Integration.Discord mergeDiscord(@MappingTarget Integration.Discord.DiscordBuilder target, Integration.Discord source);
 
     Integration.Discord.Messages mergeMessages(@MappingTarget Integration.Discord.Messages.MessagesBuilder target, Integration.Discord.Messages source);
@@ -22,9 +22,16 @@ public interface IntegrationMerger {
     @Mapping(target = "activity", expression = "java(mergeActivity(target.build().activity().toBuilder(), source.activity()))")
     Integration.Discord.Presence mergePresence(@MappingTarget Integration.Discord.Presence.PresenceBuilder target, Integration.Discord.Presence source);
 
-    Integration.Discord.Presence.Activity mergeActivity(@MappingTarget Integration.Discord.Presence.Activity.ActivityBuilder target, Integration.Discord.Presence.Activity activity);
+    Integration.Discord.Presence.Activity mergeActivity(@MappingTarget Integration.Discord.Presence.Activity.ActivityBuilder target, Integration.Discord.Presence.Activity source);
 
-    Integration.Discord.Ticket mergeTicket(@MappingTarget Integration.Discord.Ticket.TicketBuilder target, Integration.Discord.Ticket source);
+    @Mapping(target = "paste", expression = "java(mergePaste(target.build().paste().toBuilder(), source.paste()))")
+    @Mapping(target = "release", expression = "java(mergeRelease(target.build().release().toBuilder(), source.release()))")
+    Integration.Discord.Forum mergeForum(@MappingTarget Integration.Discord.Forum.ForumBuilder target, Integration.Discord.Forum source);
 
-    Integration.Telegram mergeTelegram(@MappingTarget Integration.Telegram.TelegramBuilder target, Integration.Telegram telegram);
+    Integration.Discord.Forum.Paste mergePaste(@MappingTarget Integration.Discord.Forum.Paste.PasteBuilder target, Integration.Discord.Forum.Paste source);
+
+    Integration.Discord.Forum.Release mergeRelease(@MappingTarget Integration.Discord.Forum.Release.ReleaseBuilder target, Integration.Discord.Forum.Release source);
+
+    Integration.Telegram mergeTelegram(@MappingTarget Integration.Telegram.TelegramBuilder target, Integration.Telegram source);
+
 }
